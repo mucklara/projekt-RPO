@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
+
+body {
+    background-image: url('background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    font-family: 'Krona One', sans-serif; 
+    margin: 0;
+    padding: 0;
+    color: black; 
+}
+
+nav {
+    background-color: white;
+    padding: 1rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-family: 'Krona One', sans-serif; 
+}
+
+nav .logo {
+    height: 150px;
+    width: auto;
+}
+
+.nav-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 auto;
+    color: black; 
+}
+
+
+.game-options-grid {
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 3rem; 
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.game-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    border: 3px solid #004dff; 
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    height: 200px;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.game-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: black; 
+    font-weight: bold;
+}
+
+.game-card p {
+    font-size: 1rem;
+    color: black;
+    margin: 0;
+}
+
+.game-card .text {
+    flex: 1;
+    padding-right: 1rem;
+}
+
+.game-card img {
+    width: 150px; 
+    height: auto;
+    border-radius: 5px; 
+}
+
+.play-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #72BF6A;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    text-decoration: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.play-button:hover {
+    background-color: #5aa657; 
+    transform: scale(1.1); 
+}
+
+@media (min-width: 768px) {
+    .game-options-grid {
+        grid-template-columns: 1fr 1fr; 
+        gap: 4rem;
+    }
+
+    .game-card {
+        width: 100%; 
+    }
+}
