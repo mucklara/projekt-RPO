@@ -1,57 +1,61 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
+const db = require('../db'); // Import the database connection
 const router = express.Router();
 
-// Začasno shranjevanje uporabnikov in žetonov
-const users = [];
-const tokens = [];
+// Route to fetch completed levels for a user
+router.get('/completed-levels/:userId', async (req, res) => {
+    const { userId } = req.params;
 
-// Skrivni ključ za podpisovanje žetonov
-const SECRET_KEY = 'moj_skrivni_kljuc'; // Spremeni v varno vrednost!
+    try {
+        // Check if the user exists
+        const [user] = await db.query('SELECT * FROM Users WHERE user_id = ?', [userId]);
+        if (user.length === 0) {
+            return res.status(404).json({ message: 'User does not exist.' });
+        }
 
-// Ruta za registracijo uporabnika
-router.post('/register', (req, res) => {
-    const { username, password } = req.body;
+        // Fetch completed levels along with username and language
+        const [completedLevels] = await db.query(`
+            SELECT u.username, l.language_name, up.level, up.points
+            FROM User_Progress up
+            JOIN Users u ON up.user_id = u.user_id
+            JOIN Languages l ON up.language_id = l.language_id
+            WHERE up.user_id = ? AND up.points > 0
+        `, [userId]);
 
-    // Preverimo, ali je uporabniško ime že zasedeno
-    if (users.some(user => user.username === username)) {
-        return res.status(400).json({ message: 'Uporabniško ime že obstaja.' });
+        if (completedLevels.length === 0) {
+            return res.status(200).json({ message: 'No completed levels found.', completedLevels: [] });
+        }
+
+        res.status(200).json({ completedLevels });
+    } catch (error) {
+        console.error('Error fetching completed levels:', error);
+        res.status(500).json({ message: 'Error retrieving data.' });
     }
-
-    // Dodamo uporabnika v pomnilnik
-    users.push({ username, password });
-    res.status(201).json({ message: 'Uporabnik uspešno registriran!' });
 });
 
-// Ruta za prijavo uporabnika
-router.post('/login', (req, res) => {
-    const { username, password } = req.body;
+// Route to fetch total points for a user
+router.get('/total-points/:userId', async (req, res) => {
+    const { userId } = req.params;
 
-    // Poiščemo uporabnika in preverimo poverilnice
-    const user = users.find(user => user.username === username && user.password === password);
-    if (!user) {
-        return res.status(401).json({ message: 'Neveljavne poverilnice.' });
+    try {
+        // Check if the user exists
+        const [user] = await db.query('SELECT * FROM Users WHERE user_id = ?', [userId]);
+        if (user.length === 0) {
+            return res.status(404).json({ message: 'User does not exist.' });
+        }
+
+        // Fetch total points for the user
+        const [totalPoints] = await db.query(`
+            SELECT COALESCE(SUM(points), 0) AS total_points
+            FROM User_Progress
+            WHERE user_id = ?
+        `, [userId]);
+
+        res.status(200).json({ totalPoints: totalPoints[0].total_points });
+    } catch (error) {
+        console.error('Error fetching total points:', error);
+        res.status(500).json({ message: 'Error retrieving data.' });
     }
-
-    // Generiramo žeton (JWT)
-    const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' });
-    tokens.push(token); // Shrani žeton
-
-    res.status(200).json({ message: 'Prijava uspešna!', token });
-});
-
-// Ruta za odjavo uporabnika
-router.post('/logout', (req, res) => {
-    const { token } = req.body;
-
-    // Preverimo, če je žeton veljaven in ga odstranimo
-    const index = tokens.indexOf(token);
-    if (index === -1) {
-        return res.status(400).json({ message: 'Neveljaven žeton.' });
-    }
-
-    tokens.splice(index, 1); // Odstrani žeton iz pomnilnika
-    res.status(200).json({ message: 'Odjava uspešna!' });
 });
 
 module.exports = router;

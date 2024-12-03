@@ -1,0 +1,13 @@
+{
+    "title": "Food Crossword",
+    "rows": 7,
+    "cols": 7,
+    "words": [
+      { "word": "LIMONA", "startX": 0, "startY": 0, "direction": "horizontal" },
+      { "word": "MELONA", "startX": 0, "startY": 2, "direction": "horizontal" },
+      { "word": "KAKAV", "startX": 2, "startY": 4, "direction": "horizontal" },
+      { "word": "TESTO", "startX": 0, "startY": 6, "direction": "horizontal" },
+      { "word": "KRUH", "startX": 4, "startY": 1, "direction": "vertical" }
+    ]
+  }
+  
