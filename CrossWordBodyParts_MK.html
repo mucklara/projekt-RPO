@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Parts Crossword</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: lightblue;
+            margin: 0;
+        }
+
+        .crossword {
+            display: grid;
+            grid-template-columns: repeat(6, 40px); /* Increased column count to 6 */
+            grid-template-rows: repeat(6, 40px);
+            gap: 1px;
+            background-color: black;
+        }
+
+        .cell {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .empty {
+            background-color: lightgray;
+        }
+
+        .word-cell input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            text-align: center;
+            font-size: 18px;
+            text-transform: uppercase;
+            background-color: white;
+        }
+
+        .word-cell input:focus {
+            outline: none;
+            background-color: #e8f0fe;
+        }
+    </style>
+</head>
+<body>
+    <h1>Crossword - Body Parts(NMK)</h1>
+    <div class="crossword">
+        <!-- Row 1 -->
+        <div class="cell empty"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="M"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="O"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="Z"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="O"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="K"></div>
+
+        <!-- Row 2 -->
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="O"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="K"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="O"></div>
+
+        <!-- Row 3 -->
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="L"></div>
+
+        <!-- Row 4 -->
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="S"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="T"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="O"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="M"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="A"></div>
+        <div class="cell word-cell"><input type="text" maxlength="1" placeholder="K"></div>
+
+
+    </div>
+</body>
+</html>
