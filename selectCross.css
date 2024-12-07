@@ -57,3 +57,16 @@ header h1 {
     transform: scale(1.05);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
+header {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: #f4f4f9;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+header .logo {
+    height: 50px;
+    cursor: pointer;
+}

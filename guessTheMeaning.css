@@ -124,3 +124,16 @@ h1 {
 .exit-button:hover {
     background-color: #c82333;
 }
+header {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: #f4f4f9;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+header .logo {
+    height: 50px;
+    cursor: pointer;
+}

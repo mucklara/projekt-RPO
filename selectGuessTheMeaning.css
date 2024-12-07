@@ -37,3 +37,16 @@ header h1 {
 .topic-card:hover {
     background-color: #0056b3;
 }
+header {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: #f4f4f9;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+header .logo {
+    height: 50px;
+    cursor: pointer;
+}
