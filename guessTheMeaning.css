@@ -1,0 +1,139 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+/* Game area */
+.game-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.left-word {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#word-left {
+    padding: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    background: #e8f4fa;
+    border: 1px solid #a3d8f4;
+    border-radius: 5px;
+}
+
+.right-words {
+    flex: 2;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.right-words ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.right-words ul li {
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background: #e8f4fa;
+    border: 1px solid #a3d8f4;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.right-words ul li:hover {
+    background: #d1ecf7;
+}
+
+.right-words ul li.correct {
+    background: #d4edda; /* Green for correct */
+    border-color: #28a745;
+    color: #155724;
+}
+
+.right-words ul li.incorrect {
+    background: #f8d7da; /* Red for incorrect */
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+/* Feedback */
+#feedback {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.button {
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background 0.3s;
+    color: white;
+    font-weight: bold;
+}
+
+.next-button {
+    background-color: #28a745; /* Green for Next */
+}
+
+.next-button:hover {
+    background-color: #218838;
+}
+
+.exit-button {
+    background-color: #dc3545; /* Red for Exit */
+}
+
+.exit-button:hover {
+    background-color: #c82333;
+}
+header {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: #f4f4f9;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+header .logo {
+    height: 50px;
+    cursor: pointer;
+}
