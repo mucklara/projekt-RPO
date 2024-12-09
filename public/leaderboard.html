@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="leaderboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="background">
+    <img src="images/ENLANGUA-logo.png" alt="Logo" class="logo">
+
+    <div class="leaderboard-heading">LEADERBOARD</div>
+
+    <div class="leaderboard-container">
+        <table>
+            <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Level</th>
+                <th>Points</th>
+                <th>Language</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Dynamically loaded rows will appear here -->
+            </tbody>
+
+        </table>
+    </div>
+
+    <!-- New Completed Levels Section -->
+    <div class="completed-levels-container">
+        <h2>Completed Levels</h2>
+        <ul id="completed-levels-list">
+            <!-- Dynamically loaded levels will appear here -->
+        </ul>
+    </div>
+
+    <div class="leaderboard-buttons">
+        <button class="nav-btn">Back</button>
+        <button class="nav-btn">Next</button>
+    </div>
+</div>
+
+<script src="leaderboard.js"></script>
+</body>
+</html>

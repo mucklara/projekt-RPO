@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="background">
+    <img src="images/ENLANGUA-logo.png" alt="Logo" class="logo">
+
+    <div class="center-content">
+        <h2 class="heading">Sign in to your account</h2>
+
+        <div class="login-container">
+            <form id="login-form">
+                <div id="error-message" style="color: red; display: none; margin-bottom: 10px;"></div>
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" class="sign-in-btn">Sign In</button>
+            </form>
+        </div>
+
+        <p class="dont-have-account">
+            Don't have an account? <a href="signup.html">Create</a>
+        </p>
+    </div>
+</div>
+
+<script src="login.js" defer></script>
+
+</body>
+</html>
