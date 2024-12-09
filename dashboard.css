@@ -11,7 +11,6 @@ body {
     padding: 0;
 }
 
-
 nav {
     background-color: white;
     color: black;
@@ -22,7 +21,6 @@ nav {
     justify-content: space-between;
     position: relative;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    font-family: 'Krona One', sans-serif; 
 }
 
 nav .logo {
@@ -39,7 +37,6 @@ nav .logo {
     color: black; 
 }
 
-
 .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr 1fr; 
@@ -49,27 +46,22 @@ nav .logo {
     margin: 0 auto;
 }
 
-
 .box {
     background-color: #f9f9f9;
     border: 3px solid #004dff;
     border-radius: 10px;
     padding: 1.5rem;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-    font-family: 'Krona One', sans-serif; 
 }
-
 
 .language-selection ul {
     list-style: none;
     padding: 0;
-    font-family: 'Krona One', sans-serif; 
 }
 
 .language-selection li {
     margin-bottom: 0.5rem;
     font-size: 1rem;
-    font-family: 'Krona One', sans-serif; 
 }
 
 .language-option {
@@ -78,8 +70,7 @@ nav .logo {
     font-size: 1rem;
     display: inline-block;
     padding: 0.5rem;
-    transition: color 0.3s ease;
-    font-family: 'Krona One', sans-serif; 
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .language-option:hover {
@@ -87,11 +78,16 @@ nav .logo {
     text-decoration: underline;
 }
 
+.language-option.selected {
+    background-color: lightgreen;
+    border-radius: 5px;
+    padding: 0.5rem;
+    color: black; /* Ensure text contrast */
+}
 
 .avatar-link, .leaderboard-link {
     color: #004dff;
     text-decoration: none;
-    font-family: 'Krona One', sans-serif; 
 }
 
 .avatar-link:hover, .leaderboard-link:hover {
@@ -99,11 +95,9 @@ nav .logo {
     color: #0026cc;
 }
 
-
 .tracker-grid {
     display: grid;
     gap: 1rem;
-    font-family: 'Krona One', sans-serif; 
 }
 
 .tracker-row {
@@ -114,7 +108,6 @@ nav .logo {
     padding: 0.5rem 1rem;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    font-family: 'Krona One', sans-serif; 
 }
 
 .level-box {
@@ -126,9 +119,7 @@ nav .logo {
     color: #004dff;
     text-align: center;
     min-width: 50px;
-    font-family: 'Krona One', sans-serif; 
 }
-
 
 .play-game {
     display: flex; 
@@ -146,13 +137,11 @@ nav .logo {
     border-radius: 10px;
     background-color: #f9f9f9;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Krona One', sans-serif;
 }
 
 .play-game a {
     text-decoration: none;
     color: #004dff; 
-    font-family: 'Krona One', sans-serif; 
 }
 
 .play-game:hover {
@@ -162,5 +151,47 @@ nav .logo {
 
 .play-game a:hover {
     color: #0026cc; 
-    font-family: 'Krona One', sans-serif; 
+}
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+}
+
+.modal-content {
+    background-color: #f9f9f9;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 3px solid #004dff;
+    border-radius: 10px;
+    width: 50%; /* Could be more or less, depending on screen size */
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: black;
+}
+
+.close-button {
+    color: #004dff;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-button:hover {
+    color: #0026cc;
 }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="dashboard.css">
+    <script defer src="dashboard.js"></script>
 </head>
 <body>
     <nav>
@@ -18,8 +19,8 @@
         <div class="box language-selection">
             <h2>Language selection:</h2>
             <ul>
-                <li><a href="#" class="language-option">Slovenian (SI)</a></li>
-                <li><a href="#" class="language-option">Macedonian (MKD)</a></li>
+                <li><a href="#" class="language-option" data-language="SLO">Slovenian (SI)</a></li>
+                <li><a href="#" class="language-option" data-language="MKD">Macedonian (MKD)</a></li>
             </ul>
         </div>
         
@@ -49,8 +50,16 @@
         </div>
 
         <div class="play-game">
-            <a href="ChooseAGame.html" class="play-game-link">PLAY A GAME</a>
+            <a id="playGameButton" href="#" class="play-game-link">PLAY A GAME</a>
         </div>
     </main>
+
+    <!-- Modal for Warning -->
+    <div id="warningModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <p>Warning: Please choose your language first!</p>
+        </div>
+    </div>
 </body>
 </html>
