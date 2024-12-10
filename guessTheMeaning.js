@@ -11,11 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
             // Check if the pair matches
             if (item.dataset.pair === leftWord.dataset.pair) {
                 item.classList.add("correct");
-                feedback.textContent = "Pravilno! 🎉";
+                feedback.textContent = "Correct! 🎉";
                 feedback.style.color = "#28a745";
             } else {
                 item.classList.add("incorrect");
-                feedback.textContent = "Napačno! Poskusi znova. ❌";
+                feedback.textContent = "Wrong! Try again. ❌";
                 feedback.style.color = "#dc3545";
             }
         });
