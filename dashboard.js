@@ -102,3 +102,4 @@ updateLanguageTracker();
 // Example usage (simulate user earning points)
 addPoints("SI", 150); // Slovenian points increase
 addPoints("MKD", 300); // Macedonian points increase
+    
