@@ -1,4 +1,4 @@
-const db = require('../db'); // Assuming you have a db.js that exports the database connection
+const knex = require('../setupDatabase');
 
 // Function to add a new user vocabulary record
 const addUserVocabulary = async (userId, vocabularyId, learned = false) => {
@@ -7,11 +7,11 @@ const addUserVocabulary = async (userId, vocabularyId, learned = false) => {
         VALUES (?, ?, ?)
     `;
     try {
-        const [result] = await db.execute(query, [userId, vocabularyId, learned]);
+        const [result] = await knex.raw(query, [userId, vocabularyId, learned]);
         return result;
     } catch (err) {
-        console.error('Error adding user vocabulary:', err);
-        throw err;
+        console.error('Error adding user vocabulary:', err.message);
+        throw new Error('Failed to add user vocabulary');
     }
 };
 
@@ -19,11 +19,11 @@ const addUserVocabulary = async (userId, vocabularyId, learned = false) => {
 const getUserVocabulary = async () => {
     const query = 'SELECT * FROM User_Vocabulary';
     try {
-        const [results] = await db.execute(query);
+        const [results] = await knex.raw(query);
         return results;
     } catch (err) {
-        console.error('Error fetching user vocabulary:', err);
-        throw err;
+        console.error('Error fetching user vocabulary records:', err.message);
+        throw new Error('Failed to fetch user vocabulary records');
     }
 };
 
@@ -31,11 +31,14 @@ const getUserVocabulary = async () => {
 const getUserVocabularyById = async (userVocabularyId) => {
     const query = 'SELECT * FROM User_Vocabulary WHERE user_vocabulary_id = ?';
     try {
-        const [result] = await db.execute(query, [userVocabularyId]);
+        const [result] = await knex.raw(query, [userVocabularyId]);
+        if (result.length === 0) {
+            throw new Error('User vocabulary not found');
+        }
         return result[0];
     } catch (err) {
-        console.error('Error fetching user vocabulary:', err);
-        throw err;
+        console.error('Error fetching user vocabulary by ID:', err.message);
+        throw new Error('Failed to fetch user vocabulary by ID');
     }
 };
 
@@ -47,11 +50,14 @@ const updateUserVocabulary = async (userVocabularyId, learned) => {
         WHERE user_vocabulary_id = ?
     `;
     try {
-        const [result] = await db.execute(query, [learned, userVocabularyId]);
+        const [result] = await knex.raw(query, [learned, userVocabularyId]);
+        if (result.affectedRows === 0) {
+            throw new Error('No vocabulary record found to update');
+        }
         return result;
     } catch (err) {
-        console.error('Error updating user vocabulary:', err);
-        throw err;
+        console.error('Error updating user vocabulary:', err.message);
+        throw new Error('Failed to update user vocabulary');
     }
 };
 
@@ -59,11 +65,14 @@ const updateUserVocabulary = async (userVocabularyId, learned) => {
 const deleteUserVocabulary = async (userVocabularyId) => {
     const query = 'DELETE FROM User_Vocabulary WHERE user_vocabulary_id = ?';
     try {
-        const [result] = await db.execute(query, [userVocabularyId]);
+        const [result] = await knex.raw(query, [userVocabularyId]);
+        if (result.affectedRows === 0) {
+            throw new Error('No vocabulary record found to delete');
+        }
         return result;
     } catch (err) {
-        console.error('Error deleting user vocabulary:', err);
-        throw err;
+        console.error('Error deleting user vocabulary:', err.message);
+        throw new Error('Failed to delete user vocabulary');
     }
 };
 

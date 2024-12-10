@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Questions (
     quiz_id INT,
     question_text TEXT NOT NULL,
     correct_answer TEXT NOT NULL,
-    FOREIGN KEY (quiz_id) REFERENCES Quizzes(quiz_id) ON DELETE CASCADE
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS User_Answers (

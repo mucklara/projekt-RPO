@@ -1,70 +1,72 @@
 const express = require('express');
 const router = express.Router();
 
-// Importing functions from userAnswersController.js
 const {
-    addUserAnswer,
-    getUserAnswers,
-    getUserAnswerById,
-    updateUserAnswer,
-    deleteUserAnswer
+  addUserAnswer,
+  getUserAnswers,
+  getUserAnswerById,
+  updateUserAnswer,
+  deleteUserAnswer,
 } = require('../controllers/userAnswersController');
 
-// Route for adding a new user answer
+// Add a new user answer
 router.post('/add', async (req, res) => {
-    const { userId, questionId, answerText, isCorrect } = req.body;
-    try {
-        const result = await addUserAnswer(userId, questionId, answerText, isCorrect);
-        res.status(201).json({ message: 'User answer added successfully', result });
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to add user answer' });
-    }
+  const { userId, questionId, answerText, isCorrect } = req.body;
+
+  try {
+    const result = await addUserAnswer(userId, questionId, answerText, isCorrect);
+    res.status(201).json({ message: 'User answer added successfully', id: result[0] });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Route for getting all user answers
+// Get all user answers
 router.get('/', async (req, res) => {
-    try {
-        const userAnswers = await getUserAnswers();
-        res.status(200).json(userAnswers);
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to fetch user answers' });
-    }
+  try {
+    const userAnswers = await getUserAnswers();
+    res.status(200).json(userAnswers);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Route for getting a user answer by its ID
-router.get('/:id', async (req, res) => {
-    try {
-        const userAnswer = await getUserAnswerById(req.params.id);
-        if (userAnswer) {
-            res.status(200).json(userAnswer);
-        } else {
-            res.status(404).json({ message: 'User answer not found' });
-        }
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to fetch user answer' });
-    }
+// Get a specific user answer by user ID and question ID
+router.get('/:userId/:questionId', async (req, res) => {
+  const { userId, questionId } = req.params;
+
+  try {
+    const userAnswer = await getUserAnswerById(userId, questionId);
+    res.status(200).json(userAnswer);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
 });
 
-// Route for updating a user answer
-router.put('/update', async (req, res) => {
-    const { userAnswerId, newAnswerText, isCorrect } = req.body;
+// Update a user answer
+router.put('/update/:id', async (req, res) => {
+    const { id } = req.params;
+    const { answerText, isCorrect } = req.body;
+  
     try {
-        const result = await updateUserAnswer(userAnswerId, newAnswerText, isCorrect);
-        res.status(200).json({ message: 'User answer updated successfully', result });
+      const result = await updateUserAnswer(id, answerText, isCorrect);
+      res.status(200).json({ message: 'User answer updated successfully', result });
     } catch (err) {
-        res.status(500).json({ error: 'Failed to update user answer' });
+      res.status(500).json({ error: err.message });
     }
-});
+  });
+  
 
-// Route for deleting a user answer
-router.delete('/delete', async (req, res) => {
-    const { userAnswerId } = req.body;
-    try {
-        const result = await deleteUserAnswer(userAnswerId);
-        res.status(200).json({ message: 'User answer deleted successfully', result });
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to delete user answer' });
-    }
+// Delete a user answer
+router.delete('/delete/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await deleteUserAnswer(id);
+    res.status(200).json({ message: 'User answer deleted successfully', result });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 module.exports = router;

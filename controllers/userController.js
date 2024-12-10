@@ -1,54 +1,83 @@
-// Create a new user
-const db = require('../db'); // Adjust the path if needed
+const knex = require('../setupDatabase'); // Adjust the path as necessary
 
-const createUser = async (username, email, password_hash, avatar = null) => {
+const createUser = async (username, email, passwordHash, avatar = null) => {
   try {
-    await knex('users').insert({ username, email, password_hash, avatar });
-    console.log('User created successfully');
+    if (!username || !email || !passwordHash) {
+      throw new Error('Missing required fields: username, email, and password hash are mandatory');
+    }
+
+    await knex('users').insert({ username, email, password_hash: passwordHash, avatar });
+    console.info(`User "${username}" created successfully.`);
   } catch (error) {
-    console.error('Error creating user:', error);
+    console.error(`Failed to create user: ${error.message}`);
+    throw new Error(`Error while creating user: ${error.message}`);
   }
 };
 
-// Get all users
+
 const getUsers = async () => {
   try {
     const users = await knex('users').select('*');
-    console.log('Users retrieved:', users);
+    console.info('Users retrieved successfully.');
     return users;
   } catch (error) {
-    console.error('Error retrieving users:', error);
+    console.error(`Failed to retrieve users: ${error.message}`);
+    throw new Error(`Error while retrieving users: ${error.message}`);
   }
 };
 
-// Get user by ID
+
 const getUserById = async (userId) => {
   try {
+    if (!userId) {
+      throw new Error('User ID is required.');
+    }
+
     const user = await knex('users').where('user_id', userId).first();
-    console.log('User retrieved:', user);
+    if (!user) {
+      throw new Error(`User with ID ${userId} not found.`);
+    }
+    console.info(`User with ID ${userId} retrieved successfully.`);
     return user;
   } catch (error) {
-    console.error('Error retrieving user:', error);
+    console.error(`Failed to retrieve user with ID ${userId}: ${error.message}`);
+    throw new Error(`Error while retrieving user with ID ${userId}: ${error.message}`);
   }
 };
 
-// Update user email
+
 const updateUserEmail = async (userId, newEmail) => {
   try {
-    await knex('users').where('user_id', userId).update({ email: newEmail });
-    console.log('User email updated successfully');
+    if (!userId || !newEmail) {
+      throw new Error('User ID and new email are required.');
+    }
+
+    const updatedRows = await knex('users').where('user_id', userId).update({ email: newEmail });
+    if (updatedRows === 0) {
+      throw new Error(`User with ID ${userId} not found.`);
+    }
+    console.info(`Email for user with ID ${userId} updated to "${newEmail}".`);
   } catch (error) {
-    console.error('Error updating user email:', error);
+    console.error(`Failed to update email for user with ID ${userId}: ${error.message}`);
+    throw new Error(`Error while updating email for user with ID ${userId}: ${error.message}`);
   }
 };
 
-// Delete user by ID
+
 const deleteUserById = async (userId) => {
   try {
-    await knex('users').where('user_id', userId).del();
-    console.log('User deleted successfully');
+    if (!userId) {
+      throw new Error('User ID is required.');
+    }
+
+    const deletedRows = await knex('users').where('user_id', userId).del();
+    if (deletedRows === 0) {
+      throw new Error(`User with ID ${userId} not found.`);
+    }
+    console.info(`User with ID ${userId} deleted successfully.`);
   } catch (error) {
-    console.error('Error deleting user:', error);
+    console.error(`Failed to delete user with ID ${userId}: ${error.message}`);
+    throw new Error(`Error while deleting user with ID ${userId}: ${error.message}`);
   }
 };
 
@@ -57,5 +86,5 @@ module.exports = {
   getUsers,
   getUserById,
   updateUserEmail,
-  deleteUserById
+  deleteUserById,
 };

@@ -3,44 +3,68 @@ const router = express.Router();
 
 // Importing functions from the questionsController.js
 const {
-    addQuestion,
-    getQuestions,
-    getQuestionById,
+    createQuestion,
+    getQuestionsByQuiz,
     updateQuestion,
     deleteQuestion
 } = require('../controllers/questionsController');
 
 // Route for adding a new question
 router.post('/add', async (req, res) => {
-    const { questionText, options, correctAnswer } = req.body;
-    await addQuestion(questionText, options, correctAnswer);
-    res.status(201).send('Question added successfully');
+    const { quizId, questionText, options, correctAnswer } = req.body;
+    try {
+        const result = await createQuestion(quizId, questionText, options, correctAnswer);
+        res.status(201).json(result);
+    } catch (error) {
+        console.error('Error adding question:', error.message);
+        res.status(400).json({ success: false, message: error.message });
+    }
 });
 
 // Route for getting all questions
 router.get('/', async (req, res) => {
-    const questions = await getQuestions();
-    res.status(200).json(questions);
+    try {
+        const questions = await knex('questions').select('*');
+        res.status(200).json({ success: true, data: questions });
+    } catch (error) {
+        console.error('Error fetching questions:', error.message);
+        res.status(500).json({ success: false, message: 'Failed to retrieve questions.' });
+    }
 });
 
-// Route for getting a specific question by ID
+// Route for getting questions by quiz ID
 router.get('/:id', async (req, res) => {
-    const question = await getQuestionById(req.params.id);
-    res.status(200).json(question);
+    try {
+        const result = await getQuestionsByQuiz(req.params.id);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error('Error fetching question:', error.message);
+        res.status(400).json({ success: false, message: error.message });
+    }
 });
 
 // Route for updating an existing question
 router.put('/update', async (req, res) => {
     const { questionId, questionText, options, correctAnswer } = req.body;
-    await updateQuestion(questionId, questionText, options, correctAnswer);
-    res.status(200).send('Question updated successfully');
+    try {
+        const result = await updateQuestion(questionId, questionText, options, correctAnswer);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error('Error updating question:', error.message);
+        res.status(400).json({ success: false, message: error.message });
+    }
 });
 
 // Route for deleting a question
 router.delete('/delete', async (req, res) => {
     const { questionId } = req.body;
-    await deleteQuestion(questionId);
-    res.status(200).send('Question deleted successfully');
+    try {
+        const result = await deleteQuestion(questionId);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error('Error deleting question:', error.message);
+        res.status(400).json({ success: false, message: error.message });
+    }
 });
 
 module.exports = router;

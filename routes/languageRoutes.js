@@ -3,20 +3,24 @@ const router = express.Router();
 
 // Importing functions from the languageController.js
 const {
-    addLanguage,
+    createLanguage,
     getLanguages,
     getLanguageById,
-    updateLanguageName,
-    deleteLanguageById
+    updateLanguage,
+    deleteLanguage
 } = require('../controllers/languageController');
 
 // Route for adding a language
-router.post('/add', async (req, res) => {
-    const { name, description } = req.body;
-    await addLanguage(name, description);
-    res.status(201).send('Language added successfully');
-});
 
+router.post('/add', async (req, res) => {
+    try {
+        const { language_name } = req.body;
+        const result = await createLanguage(language_name);
+        res.status(201).json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 // Route for getting all languages
 router.get('/', async (req, res) => {
     const languages = await getLanguages();
@@ -32,13 +36,13 @@ router.get('/:id', async (req, res) => {
 // Route for updating a language's name
 router.put('/:id/name', async (req, res) => {
     const newName = req.body.name;
-    await updateLanguageName(req.params.id, newName);
+    await updateLanguage(req.params.id, newName);
     res.status(200).send('Language name updated successfully');
 });
 
 // Route for deleting a language
 router.delete('/:id', async (req, res) => {
-    await deleteLanguageById(req.params.id);
+    await deleteLanguage(req.params.id);
     res.status(200).send('Language deleted successfully');
 });
 

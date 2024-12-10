@@ -17,7 +17,7 @@ router.post('/add', async (req, res) => {
         const result = await addUserVocabulary(userId, vocabularyId, learned);
         res.status(201).json({ message: 'User vocabulary added successfully', result });
     } catch (err) {
-        res.status(500).json({ error: 'Failed to add user vocabulary' });
+        res.status(500).json({ error: err.message || 'Failed to add user vocabulary' });
     }
 });
 
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
         const userVocabulary = await getUserVocabulary();
         res.status(200).json(userVocabulary);
     } catch (err) {
-        res.status(500).json({ error: 'Failed to fetch user vocabulary records' });
+        res.status(500).json({ error: err.message || 'Failed to fetch user vocabulary records' });
     }
 });
 
@@ -35,13 +35,9 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const userVocabulary = await getUserVocabularyById(req.params.id);
-        if (userVocabulary) {
-            res.status(200).json(userVocabulary);
-        } else {
-            res.status(404).json({ message: 'User vocabulary not found' });
-        }
+        res.status(200).json(userVocabulary);
     } catch (err) {
-        res.status(500).json({ error: 'Failed to fetch user vocabulary record' });
+        res.status(404).json({ error: err.message || 'User vocabulary not found' });
     }
 });
 
@@ -52,7 +48,7 @@ router.put('/update', async (req, res) => {
         const result = await updateUserVocabulary(userVocabularyId, learned);
         res.status(200).json({ message: 'User vocabulary updated successfully', result });
     } catch (err) {
-        res.status(500).json({ error: 'Failed to update user vocabulary' });
+        res.status(500).json({ error: err.message || 'Failed to update user vocabulary' });
     }
 });
 
@@ -63,7 +59,7 @@ router.delete('/delete', async (req, res) => {
         const result = await deleteUserVocabulary(userVocabularyId);
         res.status(200).json({ message: 'User vocabulary deleted successfully', result });
     } catch (err) {
-        res.status(500).json({ error: 'Failed to delete user vocabulary' });
+        res.status(500).json({ error: err.message || 'Failed to delete user vocabulary' });
     }
 });
 

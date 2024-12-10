@@ -13,6 +13,9 @@ const quizzesRoutes = require('./routes/quizzesRoutes');
 const userAnswersRoutes = require('./routes/userAnswersRoutes');
 const userVocabularyRoutes = require('./routes/userVocabularyRoutes');
 const vocabularyRoutes = require('./routes/vocabularyRoutes');
+const authRoutes = require('./routes/authroutes');
+const userProgress = require('./routes/userProgress');
+const { getUserProgress } = require('./controllers/userProgressController');
 
 // Middleware
 app.use(cors());
@@ -25,8 +28,11 @@ app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/questions', questionsRoutes);
 app.use('/api/quizzes', quizzesRoutes);
 app.use('/api/user-answers', userAnswersRoutes);
+app.use('/api/user-progress', userProgress);
 app.use('/api/user-vocabulary', userVocabularyRoutes);
 app.use('/api/vocabulary', vocabularyRoutes);
+app.use('/api/auth', authRoutes);
+ // Import auth routes
 
 // Set up the port and start the server
 const PORT = process.env.PORT || 3000;

@@ -37,9 +37,17 @@ router.put('/:id/email', async (req, res) => {
 });
 
 // Route for deleting a user
+// Route for deleting a user
 router.delete('/:id', async (req, res) => {
-    await deleteUserById(req.params.id);
-    res.status(200).send('User deleted successfully');
+    try {
+        const { id } = req.params; // Get the user ID from the URL
+        await deleteUserById(id); // Call the delete function with the ID
+        res.status(200).send('User deleted successfully');
+    } catch (error) {
+        console.error(`Error deleting user with ID ${req.params.id}: ${error.message}`);
+        res.status(500).json({ error: 'Failed to delete user' });
+    }
 });
+
 
 module.exports = router;

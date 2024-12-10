@@ -1,76 +1,110 @@
-const db = require('../db'); // Assuming you have a db.js that exports the database connection
+const knex = require('../setupDatabase');
 
-// Function to add a new user answer
+// Add a new user answer
 const addUserAnswer = async (userId, questionId, answerText, isCorrect) => {
-    const query = `
-        INSERT INTO User_Answers (user_id, question_id, answer_text, is_correct)
-        VALUES (?, ?, ?, ?)
-    `;
-    try {
-        const [result] = await db.execute(query, [userId, questionId, answerText, isCorrect]);
-        return result;
-    } catch (err) {
-        console.error('Error adding user answer:', err);
-        throw err;
+  try {
+    if (!userId || !questionId || typeof answerText !== 'string' || typeof isCorrect !== 'boolean') {
+      throw new Error('Invalid input data');
     }
+
+    const result = await knex('User_Answers').insert({
+      user_id: userId,
+      question_id: questionId,
+      answer_text: answerText,
+      is_correct: isCorrect,
+    });
+
+    console.log('User answer added successfully');
+    return result;
+  } catch (error) {
+    console.error('Error adding user answer:', error.message);
+    throw new Error('Failed to add user answer. Please try again later.');
+  }
 };
 
-// Function to get all user answers
+// Get all user answers
 const getUserAnswers = async () => {
-    const query = 'SELECT * FROM User_Answers';
-    try {
-        const [results] = await db.execute(query);
-        return results;
-    } catch (err) {
-        console.error('Error fetching user answers:', err);
-        throw err;
-    }
+  try {
+    const results = await knex('User_Answers').select('*');
+    console.log('User answers retrieved successfully');
+    return results;
+  } catch (error) {
+    console.error('Error fetching user answers:', error.message);
+    throw new Error('Failed to retrieve user answers. Please try again later.');
+  }
 };
 
-// Function to get a user answer by its ID
-const getUserAnswerById = async (userAnswerId) => {
-    const query = 'SELECT * FROM User_Answers WHERE user_answer_id = ?';
-    try {
-        const [result] = await db.execute(query, [userAnswerId]);
-        return result[0];
-    } catch (err) {
-        console.error('Error fetching user answer:', err);
-        throw err;
+// Get a specific user answer by user ID and question ID
+const getUserAnswerById = async (userId, questionId) => {
+  try {
+    if (!userId || !questionId) {
+      throw new Error('Invalid input data');
     }
+
+    const result = await knex('User_Answers')
+      .where({ user_id: userId, question_id: questionId })
+      .first();
+
+    if (!result) {
+      throw new Error('User answer not found for the specified question');
+    }
+
+    console.log('User answer retrieved successfully');
+    return result;
+  } catch (error) {
+    console.error('Error fetching user answer:', error.message);
+    throw new Error(error.message || 'Failed to retrieve user answer. Please try again later.');
+  }
 };
 
-// Function to update a user answer
-const updateUserAnswer = async (userAnswerId, newAnswerText, isCorrect) => {
-    const query = `
-        UPDATE User_Answers 
-        SET answer_text = ?, is_correct = ? 
-        WHERE user_answer_id = ?
-    `;
-    try {
-        const [result] = await db.execute(query, [newAnswerText, isCorrect, userAnswerId]);
-        return result;
-    } catch (err) {
-        console.error('Error updating user answer:', err);
-        throw err;
+// Update a user answer by ID
+const updateUserAnswer = async (userAnswerId, answerText, isCorrect) => {
+  try {
+    if (!userAnswerId || !answerText || typeof isCorrect !== 'boolean') {
+      throw new Error('Invalid input data');
     }
+
+    const result = await knex('User_Answers')
+      .where('user_answer_id', userAnswerId)
+      .update({ answer_text: answerText, is_correct: isCorrect });
+
+    if (result === 0) {
+      throw new Error('User answer not found or no changes made');
+    }
+
+    console.log('User answer updated successfully');
+    return result;
+  } catch (error) {
+    console.error('Error updating user answer:', error.message);
+    throw new Error(error.message || 'Failed to update user answer. Please try again later.');
+  }
 };
 
-// Function to delete a user answer
+// Delete a user answer by ID
 const deleteUserAnswer = async (userAnswerId) => {
-    const query = 'DELETE FROM User_Answers WHERE user_answer_id = ?';
-    try {
-        const [result] = await db.execute(query, [userAnswerId]);
-        return result;
-    } catch (err) {
-        console.error('Error deleting user answer:', err);
-        throw err;
+  try {
+    if (!userAnswerId) {
+      throw new Error('Invalid user answer ID');
     }
+
+    const result = await knex('User_Answers').where('user_answer_id', userAnswerId).del();
+
+    if (result === 0) {
+      throw new Error('User answer not found');
+    }
+
+    console.log('User answer deleted successfully');
+    return result;
+  } catch (error) {
+    console.error('Error deleting user answer:', error.message);
+    throw new Error(error.message || 'Failed to delete user answer. Please try again later.');
+  }
 };
 
 module.exports = {
-    addUserAnswer,
-    getUserAnswers,
-    getUserAnswerById,
-    updateUserAnswer,
-    deleteUserAnswer
+  addUserAnswer,
+  getUserAnswers,
+  getUserAnswerById,
+  updateUserAnswer,
+  deleteUserAnswer,
 };
