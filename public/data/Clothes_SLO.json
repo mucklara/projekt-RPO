@@ -1,0 +1,10 @@
+{
+  "title": "Clothes Crossword (SLO)",
+  "rows": 6,
+  "cols": 9,
+  "words": [
+    { "word": "NOGAVICE", "startX": 0, "startY": 0, "direction": "horizontal", "hint": "Socks." },
+    { "word": "HLAČE", "startX": 0, "startY": 2, "direction": "horizontal", "hint": "Pants or trousers." },
+    { "word": "ŠKORNJI", "startX": 0, "startY": 4, "direction": "horizontal", "hint": "Boots." }
+  ]
+}

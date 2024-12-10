@@ -69,12 +69,24 @@
         button:hover {
             background-color: #45a049;
         }
+
+        .hints {
+            text-align: left;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        .hints li {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 <h1 id="crossword-title">Dynamic Crossword</h1>
 <div id="crossword-container" class="crossword"></div>
 <button id="check-answers">Check Answers</button>
+<h2>Hints</h2>
+<ul id="hints-list" class="hints"></ul>
 <script src="crossword.js"></script>
 </body>
 </html>

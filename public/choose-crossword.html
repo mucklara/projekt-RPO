@@ -3,22 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choose a Crossword</title>
-    <link rel="stylesheet" href="choose-password.css">
+    <title>Choose Crossword</title>
     <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Krona One', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: lightblue;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        select, button {
+            padding: 10px;
+            font-size: 18px;
+            margin: 10px;
+            font-family: 'Krona One', sans-serif;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
+<h1>Choose Your Crossword</h1>
 <div class="container">
-    <header>
-        <h1>Choose a Crossword</h1>
-    </header>
-    <main>
-        <div class="topics">
-            <a href="crossword.html?theme=food" class="topic-card">Food</a>
-            <a href="crossword.html?theme=clothes" class="topic-card">Clothes</a>
-            <a href="crossword.html?theme=body-parts" class="topic-card">Body Parts</a>
-        </div>
-    </main>
+    <label for="theme">Select Theme:</label>
+    <select id="theme">
+        <option value="BodyParts">Body Parts</option>
+        <option value="Clothes">Clothes</option>
+        <option value="Food">Food</option>
+    </select>
+
+    <label for="language">Select Language:</label>
+    <select id="language">
+        <option value="SLO">Slovenian</option>
+        <option value="MK">Macedonian</option>
+    </select>
+
+    <br>
+    <button onclick="loadCrossword()">Start Crossword</button>
 </div>
+
+<script>
+    function loadCrossword() {
+        const theme = document.getElementById('theme').value;
+        const language = document.getElementById('language').value;
+
+        const url = `crossword.html?theme=${theme}_${language}`;
+        window.location.href = url;
+    }
+</script>
 </body>
 </html>

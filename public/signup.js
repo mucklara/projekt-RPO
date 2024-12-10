@@ -1,42 +1,54 @@
-const mockDatabase = JSON.parse(localStorage.getItem('mockDatabase')) || [];
-
-document.getElementById('signup-form').addEventListener('submit', function (e) {
+document.getElementById('signup-form').addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const name = document.getElementById('name').value.trim();
-    const surname = document.getElementById('surname').value.trim();
-    const email = document.getElementById('email').value.trim();
     const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
 
-    // Validation checks
-    if (!name || !surname || !email || !username || !password) {
-        alert('Please fill in all fields.');
-        return;
-    }
-
+    // Preverjanje uporabniškega imena
     if (!isValidUsername(username)) {
-        alert('Username must be at least 5 characters long.');
+        showError('Username must be at least 5 characters long and contain only letters and numbers.');
         return;
     }
 
+    // Preverjanje gesla
     if (!isValidPassword(password)) {
-        alert('Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.');
+        showError('Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.');
         return;
     }
 
-    // Simulated user registration
-    if (mockDatabase.some(user => user.username === username)) {
-        alert('Username already exists.');
-        return;
+    const formData = {
+        username,
+        email,
+        password,
+    };
+
+    try {
+        const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            alert('Registration successful!');
+            window.location.href = 'login.html';
+        } else {
+            showError(data.message || 'Registration failed. Please try again.');
+        }
+    } catch (error) {
+        showError('An error occurred. Please try again later.');
     }
-
-    mockDatabase.push({ name, surname, email, username, password });
-    localStorage.setItem('mockDatabase', JSON.stringify(mockDatabase));
-
-    alert('Registration successful!');
-    window.location.href = 'login.html';
 });
+
+function showError(message) {
+    const errorDiv = document.getElementById('error-message');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+}
 
 // Username validation
 function isValidUsername(username) {
@@ -47,8 +59,5 @@ function isValidUsername(username) {
 // Password validation
 function isValidPassword(password) {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.@$!%*?&#])[A-Za-z\d.@$!%*?&#]{8,}$/;
-    const result = passwordRegex.test(password);
-    console.log("Password validation:", password, result); // Debugging
-    return result;
+    return passwordRegex.test(password);
 }
-

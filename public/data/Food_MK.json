@@ -1,0 +1,11 @@
+{
+    "title": "Food Crossword (MK)",
+    "rows": 7,
+    "cols": 8,
+    "words": [
+      { "word": "ЈАБОЛКО", "startX": 1, "startY": 3, "direction": "horizontal", "hint": "A red or green fruit." },
+      { "word": "ЛИМОН", "startX": 0, "startY": 1, "direction": "horizontal", "hint": "A sour citrus fruit." },
+      { "word": "МЕЛОНА", "startX": 0, "startY": 4, "direction": "horizontal", "hint": "A large sweet fruit." }
+    ]
+  }
+  

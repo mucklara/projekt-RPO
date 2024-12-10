@@ -10,7 +10,7 @@ async function loadCrosswordData() {
     }
 
     try {
-        const response = await fetch(`data/${theme}.json`);
+        const response = await fetch(`data/${theme}.json`); // Load the corresponding JSON file
         if (!response.ok) {
             throw new Error(`Failed to load data for theme: ${theme}`);
         }
@@ -23,7 +23,7 @@ async function loadCrosswordData() {
     }
 }
 
-// Function to generate the crossword grid
+// Function to generate the crossword grid and display hints
 function generateCrossword(crosswordData) {
     const { title, rows, cols, words } = crosswordData;
 
@@ -49,6 +49,7 @@ function generateCrossword(crosswordData) {
     });
 
     // Render the grid
+    const inputs = [];
     for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
             const cell = document.createElement('div');
@@ -60,8 +61,8 @@ function generateCrossword(crosswordData) {
                 input.type = 'text';
                 input.maxLength = 1;
                 input.dataset.correct = grid[y][x]; // Store the correct letter
-                input.placeholder = grid[y][x]; // Show correct letter as a hint
                 cell.appendChild(input);
+                inputs.push(input);
             } else {
                 cell.classList.add('empty');
             }
@@ -70,9 +71,55 @@ function generateCrossword(crosswordData) {
         }
     }
 
+    // Display hints
+    displayHints(words);
+
+    // Add navigation functionality
+    addInputNavigation(inputs);
+
     return grid;
 }
 
+// Function to display hints
+function displayHints(words) {
+    const hintsList = document.getElementById('hints-list');
+    hintsList.innerHTML = ''; // Clear previous hints
+
+    words.forEach((wordObj, index) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${index + 1}. ${wordObj.hint} (${wordObj.direction === 'horizontal' ? 'Across' : 'Down'})`;
+        hintsList.appendChild(listItem);
+    });
+}
+
+// Function to handle input navigation with Enter and Arrow keys
+function addInputNavigation(inputs) {
+    inputs.forEach((input, index) => {
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                if (index + 1 < inputs.length) {
+                    inputs[index + 1].focus();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (index - 1 >= 0) {
+                    inputs[index - 1].focus();
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (index + Math.sqrt(inputs.length) < inputs.length) {
+                    inputs[index + Math.sqrt(inputs.length)].focus();
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (index - Math.sqrt(inputs.length) >= 0) {
+                    inputs[index - Math.sqrt(inputs.length)].focus();
+                }
+            }
+        });
+    });
+}
 
 // Function to check answers
 function checkAnswers(grid) {

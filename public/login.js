@@ -1,29 +1,33 @@
-const mockDatabase = JSON.parse(localStorage.getItem('mockDatabase')) || []; // Load the database from localStorage
-
-document.getElementById('login-form').addEventListener('submit', function (e) {
+document.getElementById('login-form').addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
+    const formData = {
+        username: document.getElementById('username').value.trim(),
+        password: document.getElementById('password').value.trim()
+    };
 
-    if (!username || !password) {
-        displayError('Please fill in both username and password.');
-        return;
-    }
+    try {
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
 
-    const user = mockDatabase.find((user) => user.username === username);
-
-    if (!user) {
-        displayError('User not found.');
-    } else if (user.password !== password) {
-        displayError('Incorrect password.');
-    } else {
-        alert('Login successful!');
-        window.location.href = 'leaderboard.html';
+        const data = await response.json();
+        if (response.ok) {
+            alert('Login successful!');
+            window.location.href = 'leaderboard.html';
+        } else {
+            displayError(data.message || 'Login failed. Please check your credentials.');
+        }
+    } catch (error) {
+        displayError('An error occurred. Please try again later.');
     }
 });
 
-// Function to display error messages
+// Funkcija za prikaz napak
 function displayError(message) {
     const errorDiv = document.getElementById('error-message');
     errorDiv.textContent = message;

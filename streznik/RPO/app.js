@@ -1,34 +1,39 @@
 const express = require('express');
 const path = require('path');
+const morgan = require('morgan'); // Middleware za logiranje zahtev
 const authRoutes = require('./routes/authRoutes'); // Import routes
+
 const app = express();
 
-// Middleware for processing JSON requests
+// Middleware za logiranje zahtev
+app.use(morgan('dev'));
+
+// Middleware za obdelavo JSON zahtev
 app.use(express.json());
 
-// Serve static files from the 'public' folder
+// Služenje statičnih datotek iz mape 'public'
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Use authentication routes
+// Uporaba avtentikacijskih poti
 app.use('/api/auth', authRoutes);
 
-// Default route for the homepage
+// Privzeta pot za domačo stran
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Path for the crossword page
+// Pot za stran križanke
 app.get('/crossword', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'crossword', 'crossword.html'));
 });
 
-// Handle 404 errors
-app.use((req, res) => {
-    res.status(404).send('Stran ni najdena.');
+// Zagon strežnika
+const port = 3000;
+app.listen(port, () => {
+    console.log(`Strežnik deluje na http://localhost:${port}`);
 });
 
-// Start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Strežnik deluje na http://localhost:${PORT}`);
+// Obravnava 404 napak
+app.use((req, res) => {
+    res.status(404).send(`Stran ni najdena. Poskusili ste dostopati do: ${req.originalUrl}`);
 });

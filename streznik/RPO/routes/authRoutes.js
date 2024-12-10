@@ -58,4 +58,45 @@ router.get('/total-points/:userId', async (req, res) => {
     }
 });
 
+router.post('/register', async (req, res) => {
+    const { username, email, password } = req.body;
+
+    try {
+        // Preveri, če uporabnik že obstaja
+        const [existingUser] = await db.query('SELECT * FROM Users WHERE username = ? OR email = ?', [username, email]);
+        if (existingUser.length > 0) {
+            return res.status(400).json({ message: 'Username or email already exists.' });
+        }
+
+        await db.query('INSERT INTO Users (username, email, password_hash) VALUES (?, ?, ?)',
+            [username, email, password]);
+
+        res.status(201).json({ message: 'User registered successfully!' });
+    } catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({ message: 'Registration failed.', error: error.message });
+    }
+});
+
+
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        // Poišči uporabnika v bazi z uporabo `password_hash`
+        const [user] = await db.query('SELECT * FROM Users WHERE username = ? AND password_hash = ?', [username, password]);
+
+        if (user.length === 0) {
+            return res.status(401).json({ message: 'Invalid username or password.' });
+        }
+
+        res.status(200).json({ message: 'Login successful!', user: user[0] });
+    } catch (error) {
+        console.error('Error logging in:', error);
+        res.status(500).json({ message: 'Login failed.' });
+    }
+});
+
+
+
 module.exports = router;

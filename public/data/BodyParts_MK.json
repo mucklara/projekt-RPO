@@ -1,0 +1,10 @@
+{
+    "title": "Body Parts Crossword (MK)",
+    "rows": 6,
+    "cols": 6,
+    "words": [
+      { "word": "МОЗОК", "startX": 1, "startY": 0, "direction": "horizontal", "hint": "Controls the body." },
+      { "word": "ОКО", "startX": 3, "startY": 1, "direction": "horizontal", "hint": "Used for seeing." },
+      { "word": "СТОМАК", "startX": 0, "startY": 3, "direction": "horizontal", "hint": "Part of the digestive system." }
+    ]
+  }
