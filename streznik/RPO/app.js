@@ -1,33 +1,42 @@
 const express = require('express');
 const path = require('path');
-const authRoutes = require('./routes/authRoutes'); // Import routes
+const authRoutes = require('./routes/authRoutes'); // Uvoz avtentikacijskih poti
+const progressRoutes = require('./routes/progressRoutes'); // Uvoz poti za napredek
+const gamesRoutes = require('./routes/gamesRoutes'); // Uvoz poti za igre
+
 const app = express();
 
-// Middleware for processing JSON requests
+// Middleware za procesiranje JSON zahtev
 app.use(express.json());
 
-// Serve static files from the 'public' folder
+// Statične datoteke iz mape 'public'
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Use authentication routes
+// Avtentikacijske poti
 app.use('/api/auth', authRoutes);
 
-// Default route for the homepage
+// Poti za napredek uporabnikov
+app.use('/api/progress', progressRoutes);
+
+// Poti za igre
+app.use('/api/games', gamesRoutes);
+
+// Privzeta pot za domačo stran
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Path for the crossword page
+// Pot za crossword stran
 app.get('/crossword', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'crossword', 'crossword.html'));
 });
 
-// Handle 404 errors
+// 404 Napake
 app.use((req, res) => {
     res.status(404).send('Stran ni najdena.');
 });
 
-// Start the server
+// Zagon strežnika
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Strežnik deluje na http://localhost:${PORT}`);
