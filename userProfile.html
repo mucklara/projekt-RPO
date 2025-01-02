@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="userProfile.css">
+</head>
+<body>
+    <header>
+        <a href="dashboard.html">
+            <img src="logo.png" alt="Logo" class="logo">
+        </a>
+        <nav>
+            <a href="dashboard.html" class="back-to-dashboard">Back to Dashboard</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>User Profile</h1>
+        <div class="profile-info">
+            <img id="avatar" src="default.png" alt="User Avatar" class="avatar">
+            <p><strong>Name:</strong> <span id="userName">Loading...</span></p>
+            <p><strong>Progress:</strong> <span id="userProgress">Loading...</span></p>
+            <p><strong>Languages:</strong> <span id="userLanguages">Loading...</span></p>
+        </div>
+        <div class="avatar-selection">
+            <h2>Select Avatar</h2>
+            <button class="avatar-option" data-avatar="boy.png">
+                <img src="boy.png" alt="Boy Avatar">
+            </button>
+            <button class="avatar-option" data-avatar="girl.png">
+                <img src="girl.png" alt="Girl Avatar">
+            </button>
+        </div>
+    </div>
+    <script src="userProfile.js"></script>
+</body>
+</html>

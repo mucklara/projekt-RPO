@@ -1,105 +1,169 @@
-let selectedLanguage = null;
+document.addEventListener('DOMContentLoaded', async () => {
+    // Fetch user profile and language progress
+    await fetchUserProfile();
+    await fetchLanguageProgress();
+    fetchUserProgress();
 
-// Handle language selection
-document.querySelectorAll('.language-option').forEach(option => {
-    option.addEventListener('click', (event) => {
-        event.preventDefault(); // Prevent default link behavior
-
-        // Remove selection highlight from all options
-        document.querySelectorAll('.language-option').forEach(opt => {
-            opt.style.backgroundColor = ''; // Reset background color
-        });
-
-        // Highlight the selected option
-        event.target.style.backgroundColor = 'lightgreen';
-
-        // Update the selected language
-        selectedLanguage = event.target.getAttribute('data-language');
-    });
+    // Set leaderboard link
+    const leaderboardLink = document.querySelector('.leaderboard-link');
+    leaderboardLink.href = 'leaderboard.html'; // Update if you have dynamic routes
 });
 
-// Restrict "Play a Game" button functionality
-document.getElementById('playGameButton').addEventListener('click', (event) => {
-    if (!selectedLanguage) {
-        event.preventDefault(); // Prevent navigation
-
-        // Show the warning modal
-        const modal = document.getElementById('warningModal');
-        modal.style.display = 'block';
-    } else {
-        // Redirect to the appropriate page based on the selected language
-        if (selectedLanguage === 'SLO') {
-            event.target.href = 'ChooseGames_SLO.html';
-        } else if (selectedLanguage === 'MKD') {
-            event.target.href = 'ChooseGames_MKD.html';
+// Fetch user profile data
+async function fetchUserProfile() {
+    try {
+        const response = await fetch('/auth/user'); // Replace with your user endpoint
+        if (!response.ok) {
+            if (response.status === 404) {
+                throw new Error('User profile not found.');
+            } else if (response.status >= 500) {
+                throw new Error('Server error. Please try again later.');
+            } else {
+                throw new Error('Failed to fetch user profile.');
+            }
         }
-    }
-});
-
-// Close the modal when the user clicks the close button
-document.querySelector('.close-button').addEventListener('click', () => {
-    const modal = document.getElementById('warningModal');
-    modal.style.display = 'none';
-});
-
-// Close the modal if the user clicks anywhere outside of the modal content
-window.addEventListener('click', (event) => {
-    const modal = document.getElementById('warningModal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
-});
-
-// Object to store points for each language
-let languagePoints = {
-    SI: 0, // Slovenian
-    MKD: 0 // Macedonian
-};
-
-// Function to calculate level based on points
-function calculateLevel(points) {
-    if (points > 600) {
-        return "C2";
-    } else if (points > 500) {
-        return "C1";
-    } else if (points > 400) {
-        return "B2";
-    } else if (points > 300) {
-        return "B1";
-    } else if (points > 200) {
-        return "A2";
-    } else if (points > 100) {
-        return "A1";
-    } else {
-        return "None";
+        const userData = await response.json();
+        updateUserProfile(userData);
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
     }
 }
 
-// Function to update the displayed levels and points in the HTML
-function updateLanguageTracker() {
-    // Get the tracker rows
+// Fetch user progress
+async function fetchUserProgress() {
+    try {
+        const response = await fetch('/userProgress');
+        if (!response.ok) throw new Error('Failed to fetch progress data.');
+
+        const { progressToNextLevel } = await response.json();
+        updateProgressBar(progressToNextLevel);
+        drawProgressGraph(progressToNextLevel);
+    } catch (error) {
+        console.error('Error fetching progress:', error);
+    }
+}
+
+// Update the progress bar
+function updateProgressBar(progress) {
+    const progressFill = document.querySelector('.progress-fill');
+    const progressPercentage = document.getElementById('progress-percentage');
+
+    progressFill.style.width = `${progress}%`;
+    progressPercentage.textContent = `${progress}%`;
+}
+
+// Draw progress graph
+function drawProgressGraph(progress) {
+    const canvas = document.getElementById('progressGraph');
+    const ctx = canvas.getContext('2d');
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 100;
+    const startAngle = -0.5 * Math.PI;
+    const endAngle = startAngle + (2 * Math.PI * (progress / 100));
+
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Background circle
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.fillStyle = '#e0e0e0';
+    ctx.fill();
+
+    // Progress arc
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+    ctx.lineWidth = 20;
+    ctx.strokeStyle = '#76c7c0';
+    ctx.stroke();
+
+    // Add percentage text
+    ctx.font = '20px Arial';
+    ctx.fillStyle = '#000';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(`${progress}%`, centerX, centerY);
+}
+
+// Update profile section in the HTML
+function updateUserProfile(userData) {
+    const usernameElement = document.getElementById('username');
+    const avatarElement = document.getElementById('avatar');
+
+    usernameElement.textContent = userData.username || 'Unknown';
+    avatarElement.src = userData.avatar || 'default.png';
+}
+
+// Fetch language progress for the tracker
+async function fetchLanguageProgress() {
+    try {
+        const siResponse = await fetch(`/userProgress/${defaultUserId}/1`);
+        const mkdResponse = await fetch(`/userProgress/${defaultUserId}/2`);
+
+        if (!siResponse.ok || !mkdResponse.ok) {
+            if (siResponse.status === 404 || mkdResponse.status === 404) {
+                throw new Error('Language progress data not found.');
+            } else if (siResponse.status >= 500 || mkdResponse.status >= 500) {
+                throw new Error('Server error. Please try again later.');
+            } else {
+                throw new Error('Failed to fetch language progress.');
+            }
+        }
+
+        const siData = await siResponse.json();
+        const mkdData = await mkdResponse.json();
+
+        updateLanguageTracker(siData, mkdData);
+    } catch (error) {
+        console.error('Error fetching language progress:', error);
+    }
+}
+
+// Update the language tracker with backend data
+function updateLanguageTracker(siData, mkdData) {
     const siLevelBox = document.querySelector('.tracker-row:nth-child(1) .level-box');
     const mkdLevelBox = document.querySelector('.tracker-row:nth-child(2) .level-box');
 
-    // Update the levels and points based on the current points
-    siLevelBox.textContent = `${calculateLevel(languagePoints.SI)} (${languagePoints.SI} points)`;
-    mkdLevelBox.textContent = `${calculateLevel(languagePoints.MKD)} (${languagePoints.MKD} points)`;
+    siLevelBox.textContent = `${siData.level} (${siData.points} points)`;
+    mkdLevelBox.textContent = `${mkdData.level} (${mkdData.points} points)`;
 }
 
-// Function to simulate adding points (will connect to game logic later)
-function addPoints(language, points) {
-    if (languagePoints.hasOwnProperty(language)) {
-        languagePoints[language] += points; // Add points to the language
-        updateLanguageTracker(); // Update the tracker display
-    } else {
-        console.error("Invalid language code!");
+// Add points dynamically and update backend
+async function addPoints(language, points) {
+    try {
+        const languageId = language === 'SI' ? 1 : 2;
+        const response = await fetch('/userProgress/update', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                userId: defaultUserId,
+                languageId,
+                points,
+            }),
+        });
+
+        if (!response.ok) {
+            if (response.status === 400) {
+                throw new Error('Invalid points update request.');
+            } else if (response.status >= 500) {
+                throw new Error('Server error. Please try again later.');
+            } else {
+                throw new Error('Failed to update points.');
+            }
+        }
+
+        console.log(`Points added to ${language} successfully`);
+        await fetchLanguageProgress();
+    } catch (error) {
+        console.error('Error updating points:', error);
     }
+
+
 }
 
-// Initial call to set default levels on page load
-updateLanguageTracker();
-
-// Example usage (simulate user earning points)
-addPoints("SI", 150); // Slovenian points increase
-addPoints("MKD", 300); // Macedonian points increase
-    
+// Fetch data on page load
+document.addEventListener('DOMContentLoaded', () => {
+    fetchUserProfile();
+    fetchLanguageProgress();
+});

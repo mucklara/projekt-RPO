@@ -26,13 +26,15 @@
         
         <div class="box profile-section">
             <h2>PROFILE</h2>
-            <p><strong>Username:</strong> [Your Username]</p>
+            <p><strong>Username:</strong> <span id="username">Loading...</span></p>
             <p>
                 <strong>Avatar:</strong>
-                <a href="#" class="avatar-link">(click here add/change your avatar)</a>
+                <img id="avatar" src="default.png" alt="User Avatar" class="profile-avatar">
+                <a href="userProfile.html" class="avatar-link">(click here to edit your avatar)</a>
             </p>
-            <p><a href="#" class="leaderboard-link">Click here to see the Leaderboard</a></p>
+            <p><a href="leaderboard.html" class="leaderboard-link">Click here to see the Leaderboard</a></p>
         </div>
+        
 
         <div class="box language-tracker">
             <h2>Language Tracker Levels</h2>
@@ -52,6 +54,26 @@
         <div class="play-game">
             <a id="playGameButton" href="#" class="play-game-link">PLAY A GAME</a>
         </div>
+
+ <!-- Progress Visualization -->
+ <div class="progress-container">
+    <h2>Progress to the Next Level</h2>
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 0;"></div>
+    </div>
+    <p id="progress-percentage">0%</p>
+</div>
+
+<!-- Alternatively, use this for the circular graph -->
+<div class="progress-graph-container">
+    <h2>Progress to the Next Level</h2>
+    <canvas id="progressGraph" width="300" height="300"></canvas>
+</div>
+
+<div class="play-game">
+    <a id="playGameButton" href="#" class="play-game-link">PLAY A GAME</a>
+</div>
+
     </main>
 
     <!-- Modal for Warning -->
