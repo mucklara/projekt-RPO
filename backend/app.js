@@ -3,6 +3,11 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const knex = require('./setupDatabase');  // Import the knex instance
+const path = require('path');
+
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public'))); // Replace 'public' with the folder containing your HTML files
+
 
 // Import routes
 const userRoutes = require('./routes/userRoutes');
