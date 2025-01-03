@@ -1,4 +1,4 @@
-// Fetch game data dynamically based on language ID
+
 async function fetchGameData(languageId) {
     try {
         const response = await fetch(`/vocabulary/${languageId}`);
@@ -18,16 +18,16 @@ async function fetchGameData(languageId) {
     }
 }
 
-// Populate the game area with fetched data
+
 function populateGameArea(data) {
     const imageArea = document.querySelector(".image-area");
     const wordOptions = document.querySelector(".word-options");
 
-    // Populate the image
+
     imageArea.innerHTML = `<img src="${data.image}" alt="${data.altText}">`;
     imageArea.setAttribute("data-correct", data.correctAnswer);
 
-    // Populate the word options
+  
     wordOptions.innerHTML = '';
     data.options.forEach(option => {
         const button = document.createElement("button");
@@ -36,11 +36,11 @@ function populateGameArea(data) {
         wordOptions.appendChild(button);
     });
 
-    // Reinitialize event listeners
+  
     addAnswerListeners();
 }
 
-// Add listeners to buttons for answer selection
+
 function addAnswerListeners() {
     const buttons = document.querySelectorAll(".word-options button");
     const feedback = document.querySelector(".feedback");

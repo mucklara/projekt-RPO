@@ -52,13 +52,13 @@ function populateOptions(options) {
     });
 }
 
-// Display an error message
+
 function displayError(message) {
     const optionsGrid = document.querySelector('.game-options-grid');
     optionsGrid.innerHTML = `<p class="error">${message}</p>`;
 }
 
-// Initialize the page
+
 function initializePage() {
     const languageCode = document.body.lang === 'mk' ? 'MKD' : 'SLO';
     fetchOptions(languageCode);

@@ -1,4 +1,3 @@
-// Fetch word and options for the game
 async function fetchGameData(languageId) {
     try {
         const response = await fetch(`/vocabulary/${languageId}`);
@@ -18,16 +17,15 @@ async function fetchGameData(languageId) {
     }
 }
 
-// Populate game area dynamically
 function populateGameArea(data) {
     const leftWord = document.getElementById("word-left");
     const rightList = document.getElementById("right-list");
 
-    // Populate the left word
+ 
     leftWord.textContent = data.word;
     leftWord.setAttribute('data-pair', data.correctPair);
 
-    // Populate the right options
+    
     rightList.innerHTML = '';
     data.options.forEach(option => {
         const li = document.createElement('li');
@@ -36,11 +34,10 @@ function populateGameArea(data) {
         rightList.appendChild(li);
     });
 
-    // Reinitialize event listeners
     addAnswerListeners();
 }
 
-// Add event listeners for answer selection
+
 function addAnswerListeners() {
     const leftWord = document.getElementById("word-left");
     const rightItems = document.querySelectorAll("#right-list li");

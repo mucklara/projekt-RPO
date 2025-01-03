@@ -1,18 +1,16 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Fetch user profile and language progress
     await fetchUserProfile();
     await fetchLanguageProgress();
     fetchUserProgress();
 
-    // Set leaderboard link
     const leaderboardLink = document.querySelector('.leaderboard-link');
-    leaderboardLink.href = 'leaderboard.html'; // Update if you have dynamic routes
+    leaderboardLink.href = 'leaderboard.html'; 
 });
 
-// Fetch user profile data
+
 async function fetchUserProfile() {
     try {
-        const response = await fetch('/auth/user'); // Replace with your user endpoint
+        const response = await fetch('/auth/user'); 
         if (!response.ok) {
             if (response.status === 404) {
                 throw new Error('User profile not found.');
@@ -29,7 +27,7 @@ async function fetchUserProfile() {
     }
 }
 
-// Fetch user progress
+
 async function fetchUserProgress() {
     try {
         const response = await fetch('/userProgress');
@@ -43,7 +41,7 @@ async function fetchUserProgress() {
     }
 }
 
-// Update the progress bar
+
 function updateProgressBar(progress) {
     const progressFill = document.querySelector('.progress-fill');
     const progressPercentage = document.getElementById('progress-percentage');
@@ -52,7 +50,7 @@ function updateProgressBar(progress) {
     progressPercentage.textContent = `${progress}%`;
 }
 
-// Draw progress graph
+
 function drawProgressGraph(progress) {
     const canvas = document.getElementById('progressGraph');
     const ctx = canvas.getContext('2d');
@@ -62,23 +60,23 @@ function drawProgressGraph(progress) {
     const startAngle = -0.5 * Math.PI;
     const endAngle = startAngle + (2 * Math.PI * (progress / 100));
 
-    // Clear canvas
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Background circle
+
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
     ctx.fillStyle = '#e0e0e0';
     ctx.fill();
 
-    // Progress arc
+    
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, startAngle, endAngle);
     ctx.lineWidth = 20;
     ctx.strokeStyle = '#76c7c0';
     ctx.stroke();
 
-    // Add percentage text
+    
     ctx.font = '20px Arial';
     ctx.fillStyle = '#000';
     ctx.textAlign = 'center';

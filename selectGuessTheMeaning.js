@@ -1,4 +1,3 @@
-// Fetch Guess The Meaning topics dynamically
 async function fetchTopics(languageCode) {
     try {
         const response = await fetch(`/guess-the-meaning/${languageCode}`); // Replace with the correct backend route
@@ -19,7 +18,7 @@ async function fetchTopics(languageCode) {
     }
 }
 
-// Populate the topics dynamically
+
 function populateTopics(topics) {
     const topicsContainer = document.querySelector('.topics');
     topicsContainer.innerHTML = '';
@@ -38,7 +37,7 @@ function populateTopics(topics) {
     });
 }
 
-// Display an error message
+
 function displayError(message) {
     const topicsContainer = document.querySelector('.topics');
     topicsContainer.innerHTML = `<p class="error">${message}</p>`;

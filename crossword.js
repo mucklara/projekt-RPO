@@ -18,7 +18,7 @@ async function fetchCrosswordData() {
     }
 }
 
-// Populate crossword grid with data from backend
+
 function populateCrossword(data) {
     const inputs = document.querySelectorAll(".word-cell input");
     data.forEach((item, index) => {
@@ -28,7 +28,7 @@ function populateCrossword(data) {
     });
 }
 
-// Function to submit user answers to the backend
+
 async function submitUserAnswers() {
     const inputs = document.querySelectorAll(".word-cell input");
     const userAnswers = Array.from(inputs).map(input => ({

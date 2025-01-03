@@ -19,7 +19,7 @@ async function fetchOptions(languageCode) {
     }
 }
 
-// Populate the game options dynamically
+
 function populateOptions(options) {
     const optionsGrid = document.querySelector('.game-options-grid');
     optionsGrid.innerHTML = '';

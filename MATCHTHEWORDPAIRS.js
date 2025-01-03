@@ -87,7 +87,7 @@ function addAnswerListeners() {
     });
 }
 
-// Submit user answer to the backend
+
 async function submitAnswer(isCorrect) {
     try {
         const response = await fetch('/userAnswers/add', {
@@ -126,8 +126,8 @@ async function updateProgress(points) {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                userId: 1, // Replace with dynamic userId
-                languageId: 1, // Replace with dynamic languageId
+                userId: 1, //Zamenjaj z dinamicnim id
+                languageId: 1, // isto kot gor
                 points,
             }),
         });
