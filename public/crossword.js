@@ -70,14 +70,66 @@ function generateCrossword(crosswordData) {
         }
     }
 
-    return grid;
+    return { grid, words };
 }
 
+// Function to calculate points based on word length
+function calculateScore(wordLength) {
+    if (wordLength <= 3) return 5;
+    if (wordLength <= 6) return 10;
+    return 15;
+}
 
-// Function to check answers
-function checkAnswers(grid) {
+// Function to send progress update to the server
+async function updateUserProgress(userId, languageId, points) {
+    try {
+        const response = await fetch('/api/progress/update-user-progress', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_id: userId,
+                language_id: languageId,
+                points: points,
+            }),
+        });
+
+        if (!response.ok) {
+            console.error('Failed to update progress:', await response.text());
+        }
+    } catch (error) {
+        console.error('Error updating progress:', error.message);
+    }
+}
+
+// Function to check answers and calculate scores
+function checkAnswers(grid, words) {
     const inputs = document.querySelectorAll('.word-cell input');
-    inputs.forEach(input => {
+    const userId = 123; // Replace with actual user ID
+    const languageId = 1; // Replace with actual language ID
+    let totalScore = 0;
+
+    words.forEach(({ word }) => {
+        const wordInputs = Array.from(inputs).filter(
+            (input) => input.dataset.correct && word.includes(input.dataset.correct)
+        );
+
+        const isCorrect = wordInputs.every((input) => {
+            const correctLetter = input.dataset.correct.toUpperCase();
+            const userLetter = input.value.toUpperCase();
+            return correctLetter === userLetter;
+        });
+
+        if (isCorrect) {
+            const wordScore = calculateScore(word.length);
+            totalScore += wordScore;
+        }
+    });
+
+    updateUserProgress(userId, languageId, totalScore);
+
+    inputs.forEach((input) => {
         const correctLetter = input.dataset.correct.toUpperCase();
         const userLetter = input.value.toUpperCase();
 
@@ -87,17 +139,21 @@ function checkAnswers(grid) {
             input.style.backgroundColor = 'lightcoral'; // Incorrect answer
         }
     });
+
+    const feedback = document.getElementById('feedback');
+    feedback.textContent = `You scored ${totalScore} points!`;
+    feedback.style.color = '#28a745';
 }
 
 // Main function to load and generate the crossword
 (async function () {
     const crosswordData = await loadCrosswordData();
     if (crosswordData) {
-        const grid = generateCrossword(crosswordData);
+        const { grid, words } = generateCrossword(crosswordData);
 
         // Add event listener for checking answers
         document.getElementById('check-answers').addEventListener('click', () => {
-            checkAnswers(grid);
+            checkAnswers(grid, words);
         });
     }
 })();
