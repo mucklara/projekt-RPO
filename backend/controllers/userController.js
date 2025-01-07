@@ -14,7 +14,6 @@ const createUser = async (username, email, passwordHash, avatar = null) => {
   }
 };
 
-
 const getUsers = async () => {
   try {
     const users = await knex('users').select('*');
@@ -25,7 +24,6 @@ const getUsers = async () => {
     throw new Error(`Error while retrieving users: ${error.message}`);
   }
 };
-
 
 const getUserById = async (userId) => {
   try {
@@ -45,7 +43,6 @@ const getUserById = async (userId) => {
   }
 };
 
-
 const updateUserEmail = async (userId, newEmail) => {
   try {
     if (!userId || !newEmail) {
@@ -62,7 +59,6 @@ const updateUserEmail = async (userId, newEmail) => {
     throw new Error(`Error while updating email for user with ID ${userId}: ${error.message}`);
   }
 };
-
 
 const deleteUserById = async (userId) => {
   try {

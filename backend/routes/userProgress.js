@@ -6,8 +6,11 @@ const {
   addProgress,
   getUserProgress,
   updateUserProgress,
-  deleteProgress
+  deleteProgress,
+  userProgressController
 } = require('../controllers/userProgressController');
+
+router.get('/:userId', userProgressController.getUserProgress);
 
 // Route for adding progress
 router.post('/add', async (req, res) => {

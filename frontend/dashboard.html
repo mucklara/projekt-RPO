@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script defer src="dashboard.js"></script>
+</head>
+<body>
+    <nav>
+        <a href="Dashboard.html">
+            <img src="images/logo.png" alt="Logo" class="logo">
+        </a>
+        <div class="nav-title">HOME - DASHBOARD</div>
+    </nav>
+
+    
+    <main class="dashboard-grid">
+        <div class="box language-selection">
+            <h2>Language selection:</h2>
+            <ul id="languageList">
+                <!-- Languages will be populated dynamically here -->
+            </ul>
+        </div>
+        
+        <div class="box profile-section">
+            <h2>PROFILE</h2>
+            <p><strong>Username:</strong> <span id="username">Loading...</span></p>
+            <p>
+                <strong>Avatar:</strong>
+                <img id="avatar" src="images/logo.png" alt="User Avatar" class="profile-avatar">
+                <br>
+                <br> <br>
+                <a href="userProfile.html" class="avatar-link">(click here to see your profile)</a>
+            </p>
+            <p><a href="leaderboard.html" class="leaderboard-link">Click here to see the Leaderboard</a></p>
+        </div>
+
+        <div class="box language-tracker">
+            <h2>Language Tracker Levels</h2>
+            <div class="tracker-grid" id="languageTracker">
+                <!-- Language tracker rows will be populated dynamically here -->
+            </div>
+            <p class="level-info">Levels: A1, A2, B1, B2, C1, C2</p>
+        </div>
+
+        <div class="play-game">
+            <a id="playGameButton" href="#" class="play-game-link">PLAY A GAME</a>
+        </div>
+
+        <!-- Progress Visualization -->
+        <div class="progress-container">
+            <h2>Progress to the Next Level</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0;"></div>
+            </div>
+            <p id="progress-percentage">0%</p>
+        </div>
+
+        <div class="progress-graph-container">
+            <h2>Progress to the Next Level</h2>
+            <canvas id="progressGraph" width="300" height="300"></canvas>
+        </div>
+
+        <div class="play-game">
+            <a id="playGameButton" href="#" class="play-game-link">PLAY A GAME</a>
+        </div>
+
+    </main>
+
+    <!-- Modal for Warning -->
+    <div id="warningModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <p>Warning: Please choose your language first!</p>
+        </div>
+    </div>
+
+    <script>
+// Assuming the user ID is stored in localStorage
+let userId = localStorage.getItem('userId');
+if (!userId) {
+    console.error('User ID not found!');
+} else {
+    let refreshInterval = 5000; // Refresh every 5 seconds
+
+    // Function to fetch user progress
+    async function fetchUserProgress() {
+    try {
+        const response = await fetch(`/api/user-progress?user_id=${userId}`);
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log('Fetched user progress:', data); // Log the data to see the result
+            updateProgressUI(data.progress);
+        } else {
+            console.error('Error fetching user progress:', data.error);
+        }
+    } catch (error) {
+        console.error('Error fetching user progress:', error);
+    }
+}
+
+// Start automatic data refresh
+setInterval(() => {
+    console.log('Fetching user progress...'); // Log to track the interval execution
+    fetchUserProgress();
+}, refreshInterval);
+
+
+    // Function to update the UI with the user's progress
+    function updateProgressUI(progressData) {
+        if (!progressData || progressData.length === 0) return;
+
+        const progressTable = document.getElementById('progressTable');
+        progressTable.innerHTML = '';
+
+        progressData.forEach(progress => {
+            const row = document.createElement('tr');
+            const languageCell = document.createElement('td');
+            languageCell.textContent = progress.language;
+            const levelCell = document.createElement('td');
+            levelCell.textContent = progress.level;
+            const pointsCell = document.createElement('td');
+            pointsCell.textContent = progress.points;
+
+            row.appendChild(languageCell);
+            row.appendChild(levelCell);
+            row.appendChild(pointsCell);
+            progressTable.appendChild(row);
+        });
+    }
+
+    // Start automatic data refresh
+    setInterval(fetchUserProgress, refreshInterval);
+
+    // Fetch data immediately on page load
+    fetchUserProgress();
+}
+
+
+        // Fetch data and populate the dashboard
+        async function fetchDashboardData() {
+            const userId = localStorage.getItem('userId'); // Assuming the userId is stored in localStorage
+
+            if (!userId) {
+                console.error('User is not logged in or userId is not found.');
+                // Redirect to login page if user is not logged in
+                window.location.href = 'login.html'; // Or show a modal with the error message
+                return;
+            }
+
+            // Fetch available languages
+            try {
+                const languageResponse = await fetch('/api/languages');
+                const languages = await languageResponse.json();
+
+                const languageList = document.getElementById('languageList');
+                languages.forEach(language => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="#" class="language-option" data-language="${language.code}">${language.name}</a>`;
+                    languageList.appendChild(li);
+                });
+                document.querySelectorAll('.language-option').forEach(link => {
+    link.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const selectedLanguageId = event.target.dataset.language;
+
+        try {
+            const response = await fetch(`/api/user/language`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, language_id: selectedLanguageId })
+            });
+
+            if (response.ok) {
+                alert(`Language changed to ${event.target.textContent}`);
+            } else {
+                console.error('Failed to update language');
+            }
+        } catch (error) {
+            console.error('Error saving language:', error);
+        }
+    });
+});
+
+            } catch (error) {
+                console.error('Error fetching languages:', error);
+            }
+
+            // Retrieve user data from localStorage
+            const username = localStorage.getItem('username');
+            const avatar = localStorage.getItem('avatar');
+            const email = localStorage.getItem('email');
+            const registrationDate = localStorage.getItem('registrationDate');
+            const progress = localStorage.getItem('progress');
+
+            if (username) {
+                // Populate the dashboard profile section with user data
+                document.getElementById('username').textContent = username;
+                document.getElementById('avatar').src = 'images/default.png'; // Use default if no avatar
+            } else {
+                console.error('Username not found in localStorage');
+            }
+
+            // Fetch language progress tracker
+            try {
+                const trackerResponse = await fetch(`/api/userProgress/${userId}`);
+                if (!trackerResponse.ok) {
+                    throw new Error('Progress data not found');
+                }
+                const progressData = await trackerResponse.json();
+
+                const languageTracker = document.getElementById('languageTracker');
+                progressData.forEach(progress => {
+                    const row = document.createElement('div');
+                    row.classList.add('tracker-row');
+                    row.innerHTML = `<span class="language">${progress.language}</span>
+                                     <div class="level-box">${progress.level}</div>`;
+                    languageTracker.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching user progress:', error);
+            }
+
+            // Update the progress bar based on user data
+            const progressFill = document.querySelector('.progress-fill');
+            progressFill.style.width = `${progress || 0}%`;
+            document.getElementById('progress-percentage').textContent = `${progress || 0}%`;
+        }
+
+        // Initialize page
+        fetchDashboardData();
+
+        // Fetch available languages and populate the language list
+        // Fetch and display available languages in the dashboard
+        document.addEventListener('DOMContentLoaded', async () => {
+    // Fetch and display available languages in the dashboard
+    await fetchLanguages();
+});
+
+async function fetchLanguages() {
+    try {
+        const response = await fetch('/api/languages');
+        if (!response.ok) {
+            throw new Error(`Failed to fetch languages: ${response.statusText}`);
+        }
+        const languages = await response.json();
+
+        if (languages.length === 0) {
+            console.log('No languages found in the database.');
+        } else {
+            console.log(languages);  // Check the response from the API
+
+            const languageList = document.getElementById('languageList');
+            languageList.innerHTML = '';  // Clear any existing content
+
+            languages.forEach(language => {
+                const li = document.createElement('li');
+                li.classList.add('language-option');  // Add a class for styling
+                li.textContent = language.language_name;  // Corrected: Use language.language_name
+                li.dataset.languageId = language.language_id;  // Corrected: Use language.language_id
+                languageList.appendChild(li);
+            });
+
+            // Add event listener to each language option
+            document.querySelectorAll('.language-option').forEach(item => {
+                item.addEventListener('click', async (event) => {
+                    const selectedLanguageId = event.target.dataset.languageId;
+                    const selectedLanguageName = event.target.textContent;
+
+                    try {
+                        const userId = localStorage.getItem('userId');  // Assuming user ID is stored in localStorage
+                        if (!userId) {
+                            console.error('User ID not found!');
+                            return;
+                        }
+
+                        const response = await fetch('/api/user/language', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ userId, language_id: selectedLanguageId })
+                        });
+
+                        if (response.ok) {
+                            alert(`Language changed to ${selectedLanguageName}`);
+                        } else {
+                            console.error('Failed to update language');
+                        }
+                    } catch (error) {
+                        console.error('Error saving language:', error);
+                    }
+                });
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching languages:', error);
+    }
+}
+
+
+if (!userId) {
+    console.error('User ID not found!');
+} else {
+    fetchLanguageProgress(userId);
+}
+
+
+
+
+
+async function filterLeaderboard() {
+    const selectedLanguage = document.getElementById('languageDropdown').value;
+    try {
+        const response = await fetch(`/api/leaderboard?language=${selectedLanguage}`);
+        const leaderboardData = await response.json();
+
+        const tableBody = document.querySelector('table tbody');
+        tableBody.innerHTML = '';  // Clear the existing table rows
+
+        leaderboardData.forEach((user, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${user.username}</td>
+                <td>${user.level}</td>
+                <td>${user.points}</td>
+                <td>${user.language}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error('Error fetching leaderboard data:', error);
+    }
+}
+
+    </script>
+</body>
+</html>

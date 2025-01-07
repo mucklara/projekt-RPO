@@ -37,7 +37,6 @@ router.put('/:id/email', async (req, res) => {
 });
 
 // Route for deleting a user
-// Route for deleting a user
 router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params; // Get the user ID from the URL
@@ -48,6 +47,5 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ error: 'Failed to delete user' });
     }
 });
-
 
 module.exports = router;

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ugani pomen - Igra 2 (SLO)</title>
+    <link rel="stylesheet" href="guessTheMeaning.css">
+</head>
+<body>
+    <header>
+        <a href="dashboard.html">
+            <img src="images/logo.png" alt="Logo" class="logo">
+        </a>
+    </header>
+    <div class="container">
+        <h1>Ugani pomen</h1>
+        <div class="game-area">
+            <div class="left-word">
+                <h2>Slovenska beseda</h2>
+                <div id="word-left" data-pair="table">Miza</div>
+            </div>
+            <div class="right-words">
+                <h2>Možni pari</h2>
+                <ul id="right-list">
+                    <li data-pair="table">Table</li>
+                    <li data-pair="door">Door</li>
+                    <li data-pair="chair">Chair</li>
+                </ul>
+            </div>
+        </div>
+        <div id="feedback"></div>
+    </div>
+    <script src="guessTheMeaning.js"></script>
+</body>
+</html>

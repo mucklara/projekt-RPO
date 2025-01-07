@@ -99,3 +99,80 @@ tr:last-child td {
 .nav-btn:hover {
     background-color: #5da556;
 }
+
+
+/* Container for the language selection box */
+.language-selection-menu {
+    position: relative; /* Fix to the top-left corner */
+    top: 60px; /* Add some space from the top */
+    left: 500px; /* Add some space from the left */
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    border-radius: 8px; /* Round corners */
+    padding: 10px; /* Padding around the content */
+    z-index: 1000; /* Make sure it stays on top of other elements */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a slight shadow for better visibility */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the contents */
+    width: 90%; /* Adjust width to fit nicely */
+    max-width: 250px; /* Limit maximum width */
+    margin: 0 auto; /* Center horizontally */
+}
+
+/* Heading for the language selection box */
+.language-selection-menu h2 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 0;
+    text-align: center; /* Center the heading */
+}
+
+/* Style for the language dropdown */
+#languageDropdown {
+    width: 50%;
+    padding: 12px; /* Match padding of search bar */
+    font-size: 16px; /* Match font size with search bar */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 25px; /* Rounded corners like the search bar */
+    background-color: #f9f9f9; /* Light background */
+    color: #333; /* Text color */
+    outline: none; /* Remove default outline */
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+/* Change style on hover or focus for the dropdown */
+#languageDropdown:hover,
+#languageDropdown:focus {
+    border-color: #72bf6a; /* Green border on hover or focus */
+    background-color: #fff; /* White background on hover/focus */
+}
+
+
+/* Add styles for the search bar container */
+.search-bar-container {
+    width: 80%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+}
+
+/* Style for the search input field */
+#searchBar {
+    width: 50%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    outline: none;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+/* Change style on focus */
+#searchBar:focus {
+    border-color: #72bf6a;
+    background-color: #fff;
+}
+

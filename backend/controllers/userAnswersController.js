@@ -101,10 +101,63 @@ const deleteUserAnswer = async (userAnswerId) => {
   }
 };
 
+async function validateAnswers(gameId, answers) {
+  // Retrieve correct answers for the game from the database
+  const [rows] = await db.query('CALL GetCorrectAnswers(?)', [gameId]);
+  const correctAnswers = rows[0]; // Assuming the stored procedure returns an array of answers
+
+  if (!correctAnswers) {
+      throw new Error('Failed to retrieve correct answers');
+  }
+
+  // Compare the user’s answers to the correct ones
+  return answers.every((answer, index) => answer === correctAnswers[index]);
+}
+
+
+function pointsForGame(gameId) {
+  // Assign points based on the gameId (this can be replaced with a DB query if needed)
+  const pointsMap = {
+      1: 10, // Game ID 1: 10 points
+      2: 15, // Game ID 2: 15 points
+      3: 20, // Game ID 3: 20 points
+  };
+  return pointsMap[gameId] || 0; // Default 0 points if gameId is unknown
+}
+
+async function updateUserPoints(userId, points) {
+  await db.query('CALL UpdateUserPoints(?, ?)', [userId, points]);
+}
+
+const userAnswersController = {
+  submitAnswers: async (req, res) => {
+      const { userId, gameId, answers } = req.body;
+
+      if (!userId || !gameId || !Array.isArray(answers)) {
+          return res.status(400).json({ error: 'Invalid request. Missing or incorrect parameters.' });
+      }
+
+      try {
+          const isCorrect = await validateAnswers(gameId, answers); // Validate the answers
+
+          if (isCorrect) {
+              const points = pointsForGame(gameId);
+              await updateUserPoints(userId, points); // Update user points if answers are correct
+          }
+
+          res.status(200).json({ success: true, isCorrect });
+      } catch (err) {
+          console.error('Error submitting answers:', err.message);
+          res.status(500).json({ error: 'Failed to submit answers' });
+      }
+  },
+};
+
 module.exports = {
   addUserAnswer,
   getUserAnswers,
   getUserAnswerById,
   updateUserAnswer,
   deleteUserAnswer,
+  userAnswersController
 };

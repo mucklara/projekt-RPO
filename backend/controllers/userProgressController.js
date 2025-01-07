@@ -107,9 +107,28 @@ const deleteProgress = async (userId, languageId) => {
   }
 };
 
+const userProgressController = {
+  getUserProgress: async (req, res) => {
+    const { userId } = req.query;
+
+    if (!userId || isNaN(userId)) {
+        return res.status(400).json({ error: 'Invalid or missing userId' });
+    }
+
+    try {
+        const [rows] = await db.query('SELECT * FROM UserProgress WHERE user_id = ?', [userId]);
+        res.status(200).json({ progress: rows });
+    } catch (error) {
+        console.error('Error fetching user progress:', error.message);
+        res.status(500).json({ error: 'Failed to fetch user progress' });
+    }
+},
+};
+
 module.exports = {
   addProgress,
   getUserProgress,
   updateUserProgress,
-  deleteProgress
+  deleteProgress,
+  userProgressController
 };

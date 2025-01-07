@@ -16,16 +16,19 @@ const createLanguage = async (languageName) => {
 };
   
   // Get all languages
-  const getLanguages = async () => {
+  const getLanguages = async (req, res) => {
     try {
         const languages = await knex('languages').select('*');
-        console.log(`Retrieved ${languages.length} languages`);
-        return languages;
+        // Assuming your languages are stored in a `languages` table
+        res.status(200).json(languages);
     } catch (error) {
-        console.error('Error retrieving languages:', error.message);
-        throw new Error('Failed to retrieve languages');
+        console.error('Error fetching languages:', error);
+        res.status(500).json({ error: 'Failed to fetch languages' });
     }
 };
+
+module.exports = { getLanguages };
+
   
   // Get language by ID
   const getLanguageById = async (languageId) => {
@@ -48,7 +51,8 @@ const createLanguage = async (languageName) => {
 };
   
   // Update language name
-  const updateLanguage = async (languageId, newName) => {
+// Update language name
+const updateLanguage = async (languageId, newName) => {
     try {
         if (!languageId || isNaN(languageId)) {
             throw new Error('Invalid language ID provided');
@@ -66,9 +70,10 @@ const createLanguage = async (languageName) => {
         return { success: true, message: 'Language updated successfully' };
     } catch (error) {
         console.error(`Error updating language with ID ${languageId}:`, error.message);
-        throw new Error(`Failed to update language with ID ${languageId}`);
+        throw new Error(`Failed to update language with ID ${languageId}: ${error.message}`);
     }
 };
+
   
   // Delete language by ID
   const deleteLanguage = async (languageId) => {

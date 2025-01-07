@@ -7,6 +7,7 @@ const {
   getUserAnswerById,
   updateUserAnswer,
   deleteUserAnswer,
+  userAnswersController,
 } = require('../controllers/userAnswersController');
 
 // Add a new user answer
@@ -68,5 +69,7 @@ router.delete('/delete/:id', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+router.post('/', userAnswersController.submitAnswers);
 
 module.exports = router;

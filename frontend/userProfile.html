@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="userProfile.css">
+</head>
+<body>
+    <header>
+        <a href="dashboard.html">
+            <img src="images/logo.png" alt="Logo" class="logo">
+        </a>
+        <nav>
+            <a href="dashboard.html" class="back-to-dashboard">Back to Dashboard</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>User Profile</h1>
+        <div class="profile-info">
+            <img id="avatar" src="images/logo.png" alt="User Avatar" class="avatar">
+            <p><strong>Name:</strong> <span id="userName">Loading...</span></p>
+            <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
+            <p><strong>Registration Date:</strong> <span id="userRegistrationDate">Loading...</span></p>
+            <p><strong>Progress:</strong> <span id="userProgress">Loading...</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve user data from localStorage
+        //const userId = localStorage.getItem('user_id');
+        const username = localStorage.getItem('username');
+        const avatar = localStorage.getItem('avatar');
+        const email = localStorage.getItem('email');
+        const registrationDate = localStorage.getItem('registrationDate');
+        const progress = localStorage.getItem('progress'); // Assuming progress is stored as a string or number
+
+
+        // Check if the user is logged in
+        if (username) {
+            // Populate the profile with user info
+            document.getElementById('userName').textContent = username;
+            document.getElementById('userEmail').textContent = email || 'Not available';
+            //document.getElementById('userId').textContent = userId;
+            document.getElementById('avatar').src = 'images/default.png'; // Default avatar if none exists
+            document.getElementById('userRegistrationDate').textContent = registrationDate || 'Not available';
+            document.getElementById('userProgress').textContent = progress || 'Not available';
+        } else {
+            // Redirect to login page if user is not logged in
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

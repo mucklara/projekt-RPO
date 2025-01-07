@@ -13,6 +13,20 @@
 
     <div class="leaderboard-heading">LEADERBOARD</div>
 
+        <!-- Language selection dropdown -->
+<div class="box language-selection-menu">
+    <h2>Select Language:</h2>
+    <select id="languageDropdown">
+            <option value="macedonian">Macedonian</option>
+            <option value="slovenian">Slovenian</option>
+        <!-- Languages will be populated dynamically -->
+    </select>
+</div>
+
+<div class="search-bar-container">
+    <input type="text" id="searchBar" placeholder="Search by username..." onkeyup="searchLeaderboard()">
+</div>
+
     <div class="leaderboard-container">
         <table>
             <thead>

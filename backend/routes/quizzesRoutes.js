@@ -11,7 +11,6 @@ const {
 } = require('../controllers/quizzesController');
 
 // Route for adding a quiz
-// Route for adding a quiz
 router.post('/add', async (req, res) => {
     const { title, description, languageId, questionId } = req.body;
   

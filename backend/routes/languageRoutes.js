@@ -22,10 +22,16 @@ router.post('/add', async (req, res) => {
     }
 });
 // Route for getting all languages
+// routes/languages.js
 router.get('/', async (req, res) => {
-    const languages = await getLanguages();
-    res.status(200).json(languages);
-});
+    try {
+      const languages = await db.query('SELECT * FROM languages');
+      res.json(languages);
+    } catch (err) {
+      res.status(500).json({ error: 'Error fetching languages' });
+    }
+  });
+  
 
 // Route for getting a language by ID
 router.get('/:id', async (req, res) => {
@@ -36,8 +42,18 @@ router.get('/:id', async (req, res) => {
 // Route for updating a language's name
 router.put('/:id/name', async (req, res) => {
     const newName = req.body.name;
-    await updateLanguage(req.params.id, newName);
-    res.status(200).send('Language name updated successfully');
+    const languageId = req.params.id;
+
+    try {
+        const result = await updateLanguage(languageId, newName);
+        res.status(200).json(result);  // Send success response
+    } catch (error) {
+        console.error('Error updating language:', error.message);
+        res.status(500).json({
+            success: false,
+            message: error.message,  // Send error message from updateLanguage function
+        });
+    }
 });
 
 // Route for deleting a language

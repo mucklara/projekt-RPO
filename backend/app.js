@@ -15,6 +15,7 @@ const userVocabularyRoutes = require('./routes/userVocabularyRoutes');
 const vocabularyRoutes = require('./routes/vocabularyRoutes');
 const authRoutes = require('./routes/authroutes');
 const userProgress = require('./routes/userProgress');
+const gamesRoutes = require('./routes/gamesRoutes');
 const { getUserProgress } = require('./controllers/userProgressController');
 
 // Middleware
@@ -32,6 +33,7 @@ app.use('/api/user-progress', userProgress);
 app.use('/api/user-vocabulary', userVocabularyRoutes);
 app.use('/api/vocabulary', vocabularyRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/games', gamesRoutes);
  // Import auth routes
 
 // Set up the port and start the server
