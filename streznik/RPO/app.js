@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 
 // Pot za crossword stran
 app.get('/crossword', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'crossword', 'crossword.html'));
+    res.sendFile(path.join(__dirname, 'public', 'crossword.html'));
 });
 
 // 404 Napake

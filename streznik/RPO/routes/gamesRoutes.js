@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db'); // Uvoz povezave z bazo podatkov
+const redisClient = require('../redisClient'); // Uvozi Redis odjemalca
 
 // Helper funkcija za validacijo
 function validateGameRequest(body, res) {
@@ -28,9 +29,64 @@ function validateGameRequest(body, res) {
 }
 
 // Ruta vrne igre
-router.post('/games', (req, res) => {
-    const games = ['Crossword', 'Match the word pair', 'Match the image with the word', 'Guess the meaning'];
-    res.status(200).json({ message: games });
+// GET /api/games - pridobi seznam iger (z Redis predpomnjenjem)
+router.get('/', async (req, res) => {
+    try {
+        // Preveri predpomnjenje
+        const cachedData = await redisClient.get('games');
+        if (cachedData) {
+            console.log('Serving from cache');
+            return res.status(200).json(JSON.parse(cachedData)); // Vrni predpomnjene podatke
+        }
+
+        console.log('Serving from database');
+        // Če ni v predpomnilniku, pridobi iz baze in shrani v Redis
+        await redisClient.set('games', JSON.stringify(games), {
+            EX: 60 // Poteče po 60 sekundah
+        });
+
+        res.status(200).json(games);
+    } catch (err) {
+        console.error('Error fetching games:', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+module.exports = router;
+
+router.post('/', async (req, res) => {
+    const { name, description } = req.body;
+    const newGame = { id: games.length + 1, name, description };
+
+    // Dodaj novo igro v bazo (ali lokalni seznam)
+    games.push(newGame);
+
+    // Izbriši predpomnilnik za seznam iger
+    await redisClient.del('games');
+
+    // Vrni potrditev
+    res.status(201).send({ message: 'Game added successfully', game: newGame });
+});
+
+router.put('/:gameId', async (req, res) => {
+    const gameId = parseInt(req.params.gameId);
+    const { name, description } = req.body;
+
+    // Najdi igro v bazi in jo posodobi
+    const game = games.find(g => g.id === gameId);
+    if (game) {
+        game.name = name;
+        game.description = description;
+
+        // Posodobi predpomnilnik s posodobljenim seznamom iger
+        await redisClient.set('games', JSON.stringify(games), {
+            EX: 60 // Poteče po 60 sekundah
+        });
+
+        res.status(200).send({ message: 'Game updated successfully', game });
+    } else {
+        res.status(404).send({ message: 'Game not found' });
+    }
 });
 
 // Ruta za pridobitev podatkov za Crossword
