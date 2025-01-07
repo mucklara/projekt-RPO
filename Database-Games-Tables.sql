@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS LanguageLearning;
-USE LanguageLearning;
+CREATE DATABASE IF NOT EXISTS Learning;
+USE Learning;
 
 CREATE TABLE IF NOT EXISTS Users (
 	user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Questions (
     quiz_id INT,
     question_text TEXT NOT NULL,
     correct_answer TEXT NOT NULL,
-    FOREIGN KEY (quiz_id) REFERENCES Quizzes(quiz_id) ON DELETE CASCADE
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS User_Answers (
