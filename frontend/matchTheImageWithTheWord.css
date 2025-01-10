@@ -1,0 +1,173 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    text-align: center;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: #f4f4f9;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+header .logo {
+    height: 50px;
+    cursor: pointer;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.image-area {
+    margin: 20px auto;
+}
+
+.image-area img {
+    max-width: 300px;
+    max-height: 300px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.word-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.word-options button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #e8f4fa;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 200px;
+}
+
+.word-options button:hover {
+    background: #d1ecf7;
+}
+
+button.correct {
+    background-color: #d4edda; /* Light green */
+    border-color: #28a745;
+    color: #155724;
+}
+
+button.incorrect {
+    background-color: #f8d7da; /* Light red */
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+.feedback {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.buttons {
+    margin-top: 30px;
+}
+
+.buttons a {
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.next-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.exit-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Responsive Adjustments for Tablets */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    .image-area img {
+        max-width: 200px;
+        max-height: 200px;
+    }
+
+    .word-options button {
+        width: 180px;
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .feedback {
+        font-size: 16px;
+    }
+
+    .buttons a {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+
+/* Responsive Adjustments for Mobile Phones */
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+    }
+
+    .image-area img {
+        max-width: 150px;
+        max-height: 150px;
+    }
+
+    .word-options button {
+        width: 150px;
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    .feedback {
+        font-size: 14px;
+    }
+
+    .buttons a {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    header .logo {
+        height: 40px;
+    }
+}
