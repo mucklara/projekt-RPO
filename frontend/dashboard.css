@@ -1,0 +1,359 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
+
+body {
+    background-image: url('images/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    font-family: 'Krona One', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #2c3e50;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+header a {
+    text-decoration: none;
+    color: #fff;
+}
+
+header .logo{
+    width: 120px;
+}
+
+nav {
+    background-color: white;
+    color: black;
+    padding: 1rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+nav .logo {
+    height: 150px;
+    width: auto;
+}
+
+.nav-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+    font-family: 'Poppins', sans-serif; 
+}
+
+.logout-button {
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    width: 100px;
+    height: 30px;
+    position: absolute;
+    right: 0; /* Pushes the button to the right side */
+    top: 100%;
+    transform: translateY(-50%); /* Vertically center the button */
+}
+
+.logout-button:hover {
+    background-color: #c0392b; /* Darker red on hover */
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.box {
+    background-color: #f9f9f9;
+    border: 3px solid #004dff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.language-selection ul {
+    list-style: none;
+    padding: 0;
+}
+
+.language-selection li {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.language-option {
+    text-decoration: none;
+    color: #004dff;
+    font-size: 1rem;
+    display: inline-block;
+    padding: 0.5rem;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.language-option:hover {
+    color: #0026cc;
+    text-decoration: underline;
+}
+
+.language-option.selected {
+    background-color: lightgreen;
+    border-radius: 5px;
+    padding: 0.5rem;
+    color: black;
+}
+
+.avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+    width: 100%;
+    position: relative; /* To position the logout button */
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #004dff;
+    margin-bottom: 0.5rem;
+}
+
+.avatar-link, .leaderboard-link {
+    color: #004dff;
+    text-decoration: none;
+}
+
+.avatar-link:hover, .leaderboard-link:hover {
+    text-decoration: underline;
+    color: #0026cc;
+}
+
+.tracker-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.tracker-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.level-box {
+    background-color: #f9f9f9;
+    border: 2px solid #004dff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #004dff;
+    text-align: center;
+    min-width: 50px;
+}
+
+.play-game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    height: 120px;
+    width: 200px;
+    margin: 0 auto;
+    border: 3px solid #004dff;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.play-game a {
+    text-decoration: none;
+    color: #004dff;
+}
+
+.play-game:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.play-game a:hover {
+    color: #0026cc;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #f9f9f9;
+    margin: 15% auto;
+    padding: 20px;
+    border: 3px solid #004dff;
+    border-radius: 10px;
+    width: 50%;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: black;
+}
+
+.close-button {
+    color: #004dff;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-button:hover {
+    color: #0026cc;
+}
+
+/* Responsive Adjustments for Tablets */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .nav-title {
+        position: static;
+        transform: none;
+        margin: 1rem 0;
+        font-size: 1.2rem;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .play-game {
+        width: 100%;
+        font-size: 1.2rem;
+    }
+}
+
+/* Responsive Adjustments for Mobile Phones */
+@media (max-width: 480px) {
+    .nav-title {
+        font-size: 1rem;
+    }
+
+    .play-game {
+        height: auto;
+        padding: 1rem;
+        font-size: 1rem;
+    }
+
+    .box {
+        padding: 1rem;
+    }
+
+    .level-box {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+.user-link {
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.user-link:hover {
+    color: #0026cc;
+    transform: scale(1.05);
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.play-game, .leaderboard-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    height: 120px;
+    width: 300px;
+    border: 3px solid #004dff;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.play-game a, .leaderboard-button a {
+    text-decoration: none;
+    color: #004dff;
+    display: block;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.play-game:hover, .leaderboard-button:hover {
+    transform: scale(1.05);
+    background-color: #e6f0ff;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.play-game a:hover, .leaderboard-button a:hover {
+    color: #0026cc;
+}

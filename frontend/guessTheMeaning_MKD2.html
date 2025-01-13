@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Погоди го значењето - Игра 2 (МК)</title>
+    <link rel="stylesheet" href="guessTheMeaning.css">
+</head>
+<body>
+<header>
+    <a href="dashboard.html">
+        <img src="images/ENLANGUA-logo.png" alt="Logo" class="logo">
+    </a>
+</header>
+<div class="container">
+    <h1>Погоди го значењето</h1>
+    <div class="game-area">
+        <div class="left-word">
+            <h2>Македонски збор</h2>
+            <div id="word-left" data-pair="jeans">Фармерки</div>
+        </div>
+        <div class="right-words">
+            <h2>Можни парови</h2>
+            <ul id="right-list">
+                <li data-pair="shirt">Shirt</li>
+                <li data-pair="jeans">Jeans</li>
+                <li data-pair="shoes">Shoes</li>
+            </ul>
+        </div>
+    </div>
+    <div id="feedback"></div>
+    <div class="buttons">
+        <a class="button exit-button">Exit</a>
+    </div>
+    
+</div>
+<script src="guessTheMeaning.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="userProfile.css">
+    <script defer src="userProfile.js"></script>
+</head>
+<body>
+    <header>
+        <a href="dashboard.html">
+            <img src="images/ENLANGUA-logo.png" alt="Logo" class="logo">
+        </a>
+        <nav>
+            <a href="dashboard.html" class="back-to-dashboard">Back to Dashboard</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1 class="title">My Profile</h1>
+        <div class="profile-card">
+            <img id="avatar" src="uploads/avatars/avatar-1736605925532-554396428.jpeg" alt="User Avatar" class="avatar">
+            <div class="profile-details">
+                <p><strong>Name:</strong> <span id="userName">Loading...</span></p>
+                <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
+                <p><strong>Registration Date:</strong> <span id="userRegistrationDate">Loading...</span></p>
+            </div>
+            <div class="box language-tracker">
+                <h2>Language Progress</h2>
+                <div class="tracker-grid">
+                    <div class="tracker-row">
+                        <span class="language">SLOVENIAN</span>
+                        <div class="level-box">B1</div>
+                    </div>
+                    <div class="tracker-row">
+                        <span class="language">MACEDONIAN</span>
+                        <div class="level-box">A2</div>
+                    </div>
+                </div>
+                <p class="level-info">Levels: A1, A2, B1, B2, C1, C2</p>
+            </div>
+            <button type="button" class="logout-button">Log Out</button>
+        </div>
+    </div>
+</body>
+</html>

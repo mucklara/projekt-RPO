@@ -25,28 +25,25 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>JohnDoe</td>
-                <td>C2</td>
-                <td>12345</td>
-                <td>SI</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>JaneSmith</td>
-                <td>B2</td>
-                <td>1222</td>
-                <td>MKD</td>
-            </tr>
+            <!-- Dynamically loaded rows will appear here -->
             </tbody>
         </table>
     </div>
 
+    <!-- New Completed Levels Section -->
+    <div class="completed-levels-container">
+        <h2>Completed Levels</h2>
+        <ul id="completed-levels-list">
+            <!-- Dynamically loaded levels will appear here -->
+        </ul>
+    </div>
+
     <div class="leaderboard-buttons">
-        <button class="nav-btn">Back</button>
-        <button class="nav-btn">Next</button>
+        <button class="nav-btn" onclick="window.location.href='dashboard.html'">Back</button>
+        <button class="nav-btn" onclick="window.location.href='dashboard.html'">Next</button>
     </div>
 </div>
+
+<script src="leaderboard.js"></script>
 </body>
 </html>
