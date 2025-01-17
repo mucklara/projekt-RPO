@@ -156,7 +156,7 @@ header .logo {
     border-radius: 5px;
     transition: background-color 0.3s ease;
     width: 100px;
-    height: 30px;
+    height: 40px;
     position: relative;
     right: 0; /* Pushes the button to the right side */
     top: 100%;
@@ -165,4 +165,21 @@ header .logo {
 
 .logout-button:hover {
     background-color: #c0392b; /* Darker red on hover */
+}
+
+.back-to-dashboard {
+    display: block;
+    margin: 20px auto 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #011f40;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.back-to-dashboard:hover {
+    background-color: #0056b3;
 }

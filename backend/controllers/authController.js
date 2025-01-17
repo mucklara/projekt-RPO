@@ -62,3 +62,48 @@ exports.login = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+exports.checkUsername = async (req, res) => {
+    try {
+        console.log("Request received to check username:", req.query.username); // Log incoming username
+
+        const { username } = req.query;  // Get the username from the query string
+
+        const user = await knex('users').where({ username }).first();
+
+        if (user) {
+            console.log('Username taken:', username);  // Log if username exists
+            return res.status(400).json({ message: 'Username already taken' });
+        }
+
+        console.log('Username available:', username);  // Log if username is available
+        res.status(200).json({ message: 'Username is available' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Check if the email is already taken
+exports.checkEmail = async (req, res) => {
+    try {
+        const { email } = req.query;  // Get the email from the query string
+
+        // Check if the email exists in the database
+        const user = await knex('users').where({ email }).first();  // Query the database
+
+        if (user) {
+            return res.status(400).json({ message: 'Email is already taken' });
+        }
+
+        res.status(200).json({ message: 'Email is available' });  // Return success if email is not taken
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });  // Handle server errors
+    }
+};
+
+
+
+
+
+

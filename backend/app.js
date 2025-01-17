@@ -22,7 +22,7 @@ app.use(cors());
 app.use(bodyParser.json({ limit: '10mb' })); // Increase the limit as needed
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use('/uploads/avatars', express.static('uploads/avatars'));
-
+app.use(express.json());
 
 
 // Use the routes

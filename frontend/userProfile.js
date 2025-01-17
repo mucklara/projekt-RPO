@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const registrationDateElement = document.getElementById("userRegistrationDate");
         const progressElement = document.getElementById("userProgress");
 
-        if (avatarElement) avatarElement.src = userData.avatar || "/uploads/avatars/default-avatar.png";
+        if (avatarElement) avatarElement.src = userData.avatar || "/backend/uploads/avatars/default-avatar.png";
         if (nameElement) nameElement.textContent = userData.username || "Not available";
         if (emailElement) emailElement.textContent = userData.email || "Not available";
         if (registrationDateElement) registrationDateElement.textContent = userData.registrationDate || "Not available";
@@ -62,11 +62,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 trackerRow.querySelector('.level-box').textContent = "None (0 points)";
             } else {
                 console.error(`Error fetching progress for language ID ${languageId}:`, await response.text());
-                trackerRow.querySelector('.level-box').textContent = "Error";
+                trackerRow.querySelector('.level-box').textContent = "None (0 points)";
             }
         } catch (error) {
             console.error(`Error fetching progress for language ID ${languageId}:`, error.message);
-            trackerRow.querySelector('.level-box').textContent = "Error";
+            trackerRow.querySelector('.level-box').textContent = "None (0 points)";
         }
     }
 
@@ -107,5 +107,16 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Logout button not found');
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const backToDashboardButton = document.querySelector('.back-to-dashboard');
+    
+    if (backToDashboardButton) {
+        backToDashboardButton.addEventListener('click', function() {
+            window.location.href = 'dashboard.html';
+        });
+    }
+});
+
 
 

@@ -92,3 +92,9 @@ body {
 .dont-have-account a:hover {
     text-decoration: none;
 }
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}

@@ -99,7 +99,7 @@ document.getElementById('avatarInput').addEventListener('change', async (event) 
                 trackerRow.querySelector('.level-box').textContent = "None (0 points)";
             } else {
                 console.error(`Error fetching progress for language ID ${languageId}:`, await response.text());
-                trackerRow.querySelector('.level-box').textContent = "0";
+                trackerRow.querySelector('.level-box').textContent = "None (0 points)";
             }
         } catch (error) {
             console.error(`Error fetching progress for language ID ${languageId}:`, error.message);
@@ -114,12 +114,14 @@ document.getElementById('avatarInput').addEventListener('change', async (event) 
     await fetchAndDisplayProgress(2, '.tracker-row:nth-child(2)');
 });
 
+let selectedLanguage = null; // Independent of localStorage
+
 // Handle language selection
 document.querySelectorAll('.language-option').forEach(option => {
     option.addEventListener('click', (event) => {
         event.preventDefault(); // Prevent default link behavior
 
-        // Remove selection highlight from all options
+        // Clear any previous selections
         document.querySelectorAll('.language-option').forEach(opt => {
             opt.style.backgroundColor = ''; // Reset background color
         });
@@ -128,19 +130,22 @@ document.querySelectorAll('.language-option').forEach(option => {
         event.target.style.backgroundColor = 'lightgreen';
 
         // Update the selected language
-        selectedLanguage = event.target.getAttribute('data-language');
-        localStorage.setItem('selectedLanguage', selectedLanguage);
+        selectedLanguage = event.target.getAttribute('data-language'); // Only update in memory
+        console.log(`Selected language: ${selectedLanguage}`); // Debug log
     });
 });
 
-// Restrict "Play a Game" button functionality
 document.getElementById('playGameButton').addEventListener('click', (event) => {
     if (!selectedLanguage) {
-        event.preventDefault(); // Prevent navigation
+        event.preventDefault(); // Prevent navigation if no language is selected
 
         // Show the warning modal
         const modal = document.getElementById('warningModal');
-        modal.style.display = 'block';
+        if (modal) {
+            modal.style.display = 'block';
+        } else {
+            console.error('Warning modal not found.');
+        }
     } else {
         // Redirect to the appropriate page based on the selected language
         if (selectedLanguage === 'SLO') {
@@ -150,14 +155,15 @@ document.getElementById('playGameButton').addEventListener('click', (event) => {
         }
     }
 });
-
-// Close the modal when the user clicks the close button
+// Close modal on "X" button click
 document.querySelector('.close-button').addEventListener('click', () => {
     const modal = document.getElementById('warningModal');
-    modal.style.display = 'none';
+    if (modal) {
+        modal.style.display = 'none';
+    }
 });
 
-// Close the modal if the user clicks anywhere outside of the modal content
+// Close modal if the user clicks outside it
 window.addEventListener('click', (event) => {
     const modal = document.getElementById('warningModal');
     if (event.target === modal) {
