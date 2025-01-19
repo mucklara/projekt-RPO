@@ -18,7 +18,7 @@ body {
 .background .logo {
     position: absolute;
     top: 20px;
-    right: 20px;
+    left: 20px;
     height: 80px;
 }
 
@@ -30,8 +30,62 @@ body {
     border-radius: 50px;
     margin-bottom: 20px;
     width: 80%;
-    margin: 20px auto;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
+}
+
+.search-filters {
+    display: flex;
+    justify-content: space-between;  /* Space between the search boxes */
+    gap: 20px;
+    margin-bottom: 30px;
+    width: 80%;
+    margin-left: 220px;  /* Align the search filters to the left */
+}
+
+.search-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;  /* Align items to the left */
+    gap: 10px;
+    width: 30%;  /* Reduced width to give more space to the left */
+}
+
+label {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 100%;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #72bf6a;
+}
+
+button {
+    background-color: #72bf6a;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #5da556;
 }
 
 .leaderboard-container {
@@ -148,9 +202,18 @@ tr:last-child td {
         padding: 10px 20px;
         font-size: 16px;
     }
+
+    .search-filters {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-box {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }
 
-/* Responsive Adjustments for Mobile Phones */
 @media (max-width: 480px) {
     .leaderboard-heading {
         font-size: 24px;

@@ -10,11 +10,7 @@ const {
 } = require('../controllers/leaderboardController');
 
 // Route for getting the leaderboard
-router.get('/', async (req, res) => {
-    const { languageId } = req.query;  // Optional query parameter to filter by language
-    const leaderboard = await getLeaderboard(languageId ? parseInt(languageId) : null);
-    res.status(200).json(leaderboard);
-});
+router.get('/', getLeaderboard);
 
 // Route for adding points
 router.post('/add', async (req, res) => {

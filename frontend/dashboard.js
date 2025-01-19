@@ -121,7 +121,7 @@ document.querySelectorAll('.language-option').forEach(option => {
     option.addEventListener('click', (event) => {
         event.preventDefault(); // Prevent default link behavior
 
-        // Clear any previous selections
+        // Reset previous selections and highlight the new one
         document.querySelectorAll('.language-option').forEach(opt => {
             opt.style.backgroundColor = ''; // Reset background color
         });
@@ -129,32 +129,44 @@ document.querySelectorAll('.language-option').forEach(option => {
         // Highlight the selected option
         event.target.style.backgroundColor = 'lightgreen';
 
-        // Update the selected language
-        selectedLanguage = event.target.getAttribute('data-language'); // Only update in memory
-        console.log(`Selected language: ${selectedLanguage}`); // Debug log
+        // Get the selected language ID
+        const selectedLanguageId = event.target.getAttribute('data-language'); // Assuming data-language is the ID
+
+        // Update localStorage with the selected language ID
+        localStorage.setItem('selectedLanguage', selectedLanguageId); // Save it in localStorage
+        console.log(`Selected language: ${selectedLanguageId}`); // Debug log to verify
     });
 });
 
-document.getElementById('playGameButton').addEventListener('click', (event) => {
-    if (!selectedLanguage) {
-        event.preventDefault(); // Prevent navigation if no language is selected
 
-        // Show the warning modal
-        const modal = document.getElementById('warningModal');
-        if (modal) {
-            modal.style.display = 'block';
+    document.getElementById('playGameButton').addEventListener('click', (event) => {
+        // Fetch the selected language from localStorage
+    const selectedLanguage = localStorage.getItem('selectedLanguage');
+        if (selectedLanguage) {
+            console.log(`Using selected language: ${selectedLanguage}`);
         } else {
-            console.error('Warning modal not found.');
+            console.error('No language selected!');
         }
-    } else {
-        // Redirect to the appropriate page based on the selected language
-        if (selectedLanguage === 'SLO') {
-            event.target.href = 'chooseGames_SLO.html';
-        } else if (selectedLanguage === 'MKD') {
-            event.target.href = 'chooseGames_MKD.html';
+        if (!selectedLanguage) {
+            event.preventDefault(); // Prevent navigation if no language is selected
+    
+            // Show the warning modal
+            const modal = document.getElementById('warningModal');
+            if (modal) {
+                modal.style.display = 'block';
+            } else {
+                console.error('Warning modal not found.');
+            }
+        } else {
+            // Redirect to the appropriate page based on the selected language
+            if (selectedLanguage === 'SLO') {
+                event.target.href = 'chooseGames_SLO.html';
+            } else if (selectedLanguage === 'MKD') {
+                event.target.href = 'chooseGames_MKD.html';
+            }
         }
-    }
-});
+    });
+    
 // Close modal on "X" button click
 document.querySelector('.close-button').addEventListener('click', () => {
     const modal = document.getElementById('warningModal');

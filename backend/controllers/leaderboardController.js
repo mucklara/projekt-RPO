@@ -50,20 +50,39 @@ const calculateLevel = (points) => {
 
 
 // Get leaderboard by language (or all if no language is specified)
-const getLeaderboard = async (languageId = null) => {
+const getLeaderboard = async (req, res) => {
     try {
-        let query = knex('leaderboard');
-        if (languageId) {
-            query = query.where('language_id', languageId);
-        }
-        const leaderboard = await query.orderBy('points', 'desc');
-        console.log(`Leaderboard retrieved:`, leaderboard);
-        return leaderboard;
+      // Join users and user_progress to fetch leaderboard data
+      const leaderboardData = await knex('user_progress')
+        .join('users', 'user_progress.user_id', '=', 'users.user_id')
+        .join('languages', 'user_progress.language_id', '=', 'languages.language_id') // Adjust if needed
+        .select(
+          'users.username',
+          'user_progress.level',
+          'user_progress.points',
+          'languages.language_name'
+        )
+        .orderBy('user_progress.points', 'desc'); // Order by points in descending order
+  
+      if (!leaderboardData || leaderboardData.length === 0) {
+        return res.status(404).json({ message: 'No leaderboard data found' });
+      }
+  
+      // Format data with rank
+      const formattedData = leaderboardData.map((entry, index) => ({
+        rank: index + 1,
+        username: entry.username,
+        level: entry.level,
+        points: entry.points,
+        language: entry.language_name,
+      }));
+  
+      res.status(200).json({ leaderboard: formattedData });
     } catch (error) {
-        console.error('Error retrieving leaderboard:', error.message);
-        throw new Error('Failed to retrieve leaderboard. Please try again.');
+      console.error('Error fetching leaderboard:', error.message);
+      res.status(500).json({ message: 'Failed to fetch leaderboard data' });
     }
-};
+  };
 
 // Add points to the leaderboard
 const addpoints = async (userId, languageId, points) => {
